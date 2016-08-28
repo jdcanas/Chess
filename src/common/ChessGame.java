@@ -8,18 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package hanto.common;
+package common;
 
-
-/**
- * The HantoGame interface is the primary interface between the student's code and any
- * external (non-student written) code. Every version of Hanto will have a realization of
- * the HantoGame interface.
- * 
- * @author gpollice
- * @version Jan 12, 2013
- */
-public interface HantoGame
+public interface ChessGame
 {
 	/**
 	 * This method executes a move in the game. It is called for every move that must be
@@ -34,20 +25,20 @@ public interface HantoGame
 	 * @param to
 	 *            the coordinated where the piece is after the move has been made.
 	 * @return the result of the move
-	 * @throws HantoException
+	 * @throws ChessException
 	 *             if there are any problems in making the move (such as specifying a
 	 *             coordinate that does not have the appropriate piece, or the color of
 	 *             the piece is not the color of the player who is moving.
 	 */
-	MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
-			HantoCoordinate to) throws HantoException;
+	MoveResult makeMove(ChessPieceType pieceType, ChessCoordinate from,
+			ChessCoordinate to) throws ChessException;
 
 	/**
 	 * @param where the coordinate to query
 	 * @return the piece at the specified coordinate or null if there is no 
 	 * 	piece at that position
 	 */
-	HantoPiece getPieceAt(HantoCoordinate where);
+	ChessPiece getPieceAt(ChessCoordinate where);
 
 	/**
 	 * @return a printable representation of the board.

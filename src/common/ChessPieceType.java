@@ -8,14 +8,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package hanto.common;
+package common;
 
 /**
  * This enumeration is used to define the pieces used in Hanto.
  * 
  * @version Jan 12, 2013
  */
-public enum HantoPieceType
+public enum ChessPieceType
 {
 	BUTTERFLY("Butterfly", "B"), 
 	CRAB("Crab", "C"), 
@@ -34,7 +34,7 @@ public enum HantoPieceType
 	 * @param printableName the value returned from toString
 	 * @param symbol a one character string that can be used when printing the board.
 	 */
-	private HantoPieceType(String printableName, String symbol)
+	private ChessPieceType(String printableName, String symbol)
 	{
 		this.printableName = printableName;
 		this.symbol = symbol;

@@ -8,21 +8,21 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package hanto.common;
+package common;
 
 /**
  * Description
  * @version Sep 1, 2014
  */
-public interface HantoPiece
+public interface ChessPiece
 {
 	/**
 	 * @return the color
 	 */
-	HantoPlayerColor getColor();
+	ChessPlayerColor getColor();
 
 	/**
 	 * @return the type
 	 */
-	HantoPieceType getType();
+	ChessPieceType getType();
 }

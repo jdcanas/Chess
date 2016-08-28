@@ -8,15 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package hanto.common;
+package common;
 
-/**
- * The HantoException is the Exception that is thrown for any error that occurs during the
- * 
- * @author gpollice
- * @version Jan 12, 2013
- */
-public class HantoException extends Exception
+public class ChessException extends Exception
 {
 	/**
 	 * Every instance of this exception must have a message describing the exception.
@@ -24,7 +18,7 @@ public class HantoException extends Exception
 	 * @param message
 	 *            the string describing the error causing the exception
 	 */
-	public HantoException(String message)
+	public ChessException(String message)
 	{
 		super(message);
 	}
@@ -37,7 +31,7 @@ public class HantoException extends Exception
 	 * @param cause
 	 *            the error that caused this exception
 	 */
-	public HantoException(String message, Throwable cause)
+	public ChessException(String message, Throwable cause)
 	{
 		super(message, cause);
 	}
