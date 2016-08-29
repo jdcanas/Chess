@@ -8,7 +8,6 @@ import common.ChessPieceType;
 import common.ChessPlayerColor;
 import common.MoveResult;
 import standard.validation.EndTurnValidator;
-import standard.validation.MoveValidator;
 import standard.validation.PreTurnValidator;
 import strategies.StandardEndTurnStrategy;
 
@@ -17,7 +16,6 @@ public class StandardChessGame implements ChessGame {
     ChessPlayerColor currTurn;
     
     PreTurnValidator preTurnValidator;
-    MoveValidator moveValidator;
     EndTurnValidator endTurnValidator;
     
     StandardEndTurnStrategy gameStatusResolver;
@@ -27,7 +25,6 @@ public class StandardChessGame implements ChessGame {
 		currTurn = movesFirst;
 		
 		preTurnValidator = new PreTurnValidator();
-		moveValidator = new MoveValidator();
 		endTurnValidator = new EndTurnValidator();
 		
 		gameStatusResolver = new StandardEndTurnStrategy(board);
@@ -38,7 +35,6 @@ public class StandardChessGame implements ChessGame {
 			throws ChessException {
 		
 		preTurnValidator.validate(from, to, board);
-		moveValidator.validate(from, to, board);
 		
 		board.movePiece(new StandardPiece(currTurn, pieceType), to);
 		
