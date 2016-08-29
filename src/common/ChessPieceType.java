@@ -17,12 +17,12 @@ package common;
  */
 public enum ChessPieceType
 {
-	BUTTERFLY("Butterfly", "B"), 
-	CRAB("Crab", "C"), 
-	HORSE("Horse", "H"), 
-	CRANE("Crane", "N"), 
-	DOVE("Dove", "D"), 
-	SPARROW("Sparrow", "S");
+	PAWN("Pawn", "P"), 
+	KNIGHT("Knight", "H"), 
+	BISHOP("Bishop", "B"), 
+	ROOK("Rook", "R"), 
+	QUEEN("Queen", "Q"), 
+	KING("King", "K");
 	
 	private final String printableName;
 	private final String symbol;
