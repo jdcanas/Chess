@@ -8,11 +8,11 @@ import common.ChessPieceType;
 import common.ChessPlayerColor;
 import common.GameState;
 import common.MoveResult;
-import standard.validation.EndTurnValidationException;
-import standard.validation.EndTurnValidator;
-import standard.validation.PreTurnValidator;
 import strategies.StandardEndTurnStrategy;
 import utilities.CoordinateUtilities;
+import validation.EndTurnValidator;
+import validation.PreTurnValidator;
+import validation.exception.EndTurnValidationException;
 
 public class StandardChessGame implements ChessGame {
 	StandardBoard board;

@@ -8,9 +8,9 @@ import common.ChessPieceType;
 import common.ChessPlayerColor;
 import standard.StandardBoard;
 import standard.StandardCoordinate;
-import standard.validation.MovementValidationException;
 import strategies.StandardMovementValidationStrategy;
 import utilities.CoordinateUtilities;
+import validation.exception.MovementValidationException;
 
 public class StandardBishopMovementStrategy extends StandardMovementValidationStrategy {
 	

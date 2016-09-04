@@ -1,4 +1,4 @@
-package standard.validation;
+package validation;
 
 import java.util.HashMap;
 
@@ -13,6 +13,7 @@ import standard.StandardCoordinate;
 import standard.StandardPiece;
 import strategies.StandardMovementValidationStrategy;
 import utilities.CoordinateUtilities;
+import validation.exception.PreTurnValidationException;
 
 public class PreTurnValidator implements Validator {
 	public static final String PIECE_IS_NOT_THERE = "The piece you tried to move is not at the specified location.";

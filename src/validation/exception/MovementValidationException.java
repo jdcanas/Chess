@@ -1,4 +1,4 @@
-package standard.validation;
+package validation.exception;
 
 import common.ChessException;
 

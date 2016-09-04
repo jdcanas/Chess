@@ -16,13 +16,13 @@ import standard.StandardBoard;
 import standard.StandardChessGame;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
-import standard.validation.KingNotFoundException;
-import standard.validation.KingValidator;
-import standard.validation.MovePutsKingInCheckException;
-import standard.validation.MovementValidationException;
-import standard.validation.PreTurnValidationException;
-import standard.validation.PreTurnValidator;
 import strategies.StandardMovementValidationStrategy;
+import validation.KingValidator;
+import validation.PreTurnValidator;
+import validation.exception.KingNotFoundException;
+import validation.exception.MovePutsKingInCheckException;
+import validation.exception.MovementValidationException;
+import validation.exception.PreTurnValidationException;
 
 public class KingMovementTest {
 

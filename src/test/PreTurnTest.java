@@ -15,9 +15,9 @@ import standard.StandardBoard;
 import standard.StandardChessGame;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
-import standard.validation.BoardOutOfBoundsException;
-import standard.validation.PreTurnValidationException;
-import standard.validation.PreTurnValidator;
+import validation.PreTurnValidator;
+import validation.exception.BoardOutOfBoundsException;
+import validation.exception.PreTurnValidationException;
 
 import static org.junit.Assert.*;
 

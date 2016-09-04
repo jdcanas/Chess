@@ -6,9 +6,9 @@ import java.util.HashMap;
 import common.ChessCoordinate;
 import common.ChessPieceType;
 import common.ChessPlayerColor;
-import standard.validation.BoardOutOfBoundsException;
-import standard.validation.KingNotFoundException;
 import utilities.CoordinateUtilities;
+import validation.exception.BoardOutOfBoundsException;
+import validation.exception.KingNotFoundException;
 
 public class StandardBoard {
 

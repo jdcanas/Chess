@@ -7,9 +7,9 @@ import common.ChessException;
 import common.ChessPieceType;
 import common.ChessPlayerColor;
 import standard.StandardBoard;
-import standard.validation.MovementValidationException;
 import strategies.StandardMovementValidationStrategy;
 import utilities.CoordinateUtilities;
+import validation.exception.MovementValidationException;
 
 public class KingMovementStrategy extends StandardMovementValidationStrategy {
 

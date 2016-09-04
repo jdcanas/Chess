@@ -1,4 +1,4 @@
-package standard.validation;
+package validation;
 
 import common.ChessCoordinate;
 import common.ChessException;

@@ -1,4 +1,4 @@
-package standard.validation;
+package validation;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,8 @@ import factories.MovementValidationStrategyFactory;
 import standard.StandardBoard;
 import standard.StandardPiece;
 import strategies.StandardMovementValidationStrategy;
+import validation.exception.MovePutsKingInCheckException;
+import validation.exception.MovementValidationException;
 
 public class KingValidator {
 

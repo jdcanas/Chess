@@ -1,7 +1,6 @@
 package strategies;
 
 import java.util.ArrayList;
-import standard.validation.Validator;
 
 import common.ChessCoordinate;
 import common.ChessException;
@@ -9,8 +8,9 @@ import common.ChessPieceType;
 import common.ChessPlayerColor;
 import standard.StandardBoard;
 import standard.StandardCoordinate;
-import standard.validation.KingValidator;
-import standard.validation.MovementValidationException;
+import validation.KingValidator;
+import validation.Validator;
+import validation.exception.MovementValidationException;
 
 public abstract class StandardMovementValidationStrategy {
 	protected ChessCoordinate to;

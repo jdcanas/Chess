@@ -17,8 +17,8 @@ import standard.StandardBoard;
 import standard.StandardChessGame;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
-import standard.validation.MovementValidationException;
 import strategies.StandardMovementValidationStrategy;
+import validation.exception.MovementValidationException;
 
 public class BishopMovementTest {
 	
