@@ -1,10 +1,14 @@
 package factories;
 
+import common.ChessCoordinate;
 import common.ChessGameType;
 import common.ChessPieceType;
-import strategies.MovementValidationStrategy;
+import common.ChessPlayerColor;
+import standard.StandardBoard;
+import standard.StandardCoordinate;
+import strategies.StandardMovementValidationStrategy;
 import strategies.standardpiece.StandardBishopMovementStrategy;
-import strategies.standardpiece.StandardKingMovementStrategy;
+import strategies.standardpiece.KingMovementStrategy;
 import strategies.standardpiece.StandardKnightMovementStrategy;
 import strategies.standardpiece.StandardPawnMovementStrategy;
 import strategies.standardpiece.StandardQueenMovementStrategy;
@@ -20,21 +24,21 @@ public class MovementValidationStrategyFactory {
 		return instance;
 	}
 
-	public MovementValidationStrategy getStrategy(ChessGameType gameType, ChessPieceType piece) {
-		MovementValidationStrategy strategy = null;
+	public StandardMovementValidationStrategy getStrategy(ChessGameType gameType, ChessPieceType piece, ChessCoordinate to, ChessCoordinate from, StandardBoard board) {
+		StandardMovementValidationStrategy strategy = null;
 
 		switch (gameType) {
 		case STANDARD_CHESS:
-			strategy = getStandardStrategy(piece);
+			strategy = getStandardStrategy(piece, to, from, board);
 			break;
 		}
 
 		return strategy;
 	}
 
-	private MovementValidationStrategy getStandardStrategy(ChessPieceType piece) {
+	private StandardMovementValidationStrategy getStandardStrategy(ChessPieceType piece, ChessCoordinate to, ChessCoordinate from, StandardBoard board) {
 
-		MovementValidationStrategy strategy = null;
+		StandardMovementValidationStrategy strategy = null;
 
 		switch (piece) {
 		case PAWN:
@@ -44,7 +48,7 @@ public class MovementValidationStrategyFactory {
 			strategy = new StandardKnightMovementStrategy();
 			break;
 		case BISHOP:
-			strategy = new StandardBishopMovementStrategy();
+			strategy = new StandardBishopMovementStrategy(to, from, board);
 			break;
 		case ROOK:
 			strategy = new StandardRookMovementStrategy();
@@ -53,7 +57,7 @@ public class MovementValidationStrategyFactory {
 			strategy = new StandardQueenMovementStrategy();
 			break;
 		case KING:
-			strategy = new StandardKingMovementStrategy();
+			strategy = new KingMovementStrategy(to, from, board);
 			break;
 		}
 

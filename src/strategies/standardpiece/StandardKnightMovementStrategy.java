@@ -1,7 +1,7 @@
 package strategies.standardpiece;
 
-import strategies.MovementValidationStrategy;
+import strategies.StandardMovementValidationStrategy;
 
-public class StandardKnightMovementStrategy extends MovementValidationStrategy {
+public class StandardKnightMovementStrategy extends StandardMovementValidationStrategy {
 
 }

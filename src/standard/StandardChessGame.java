@@ -6,40 +6,60 @@ import common.ChessGame;
 import common.ChessPiece;
 import common.ChessPieceType;
 import common.ChessPlayerColor;
+import common.GameState;
 import common.MoveResult;
+import standard.validation.EndTurnValidationException;
 import standard.validation.EndTurnValidator;
 import standard.validation.PreTurnValidator;
 import strategies.StandardEndTurnStrategy;
+import utilities.CoordinateUtilities;
 
 public class StandardChessGame implements ChessGame {
-    StandardBoard board;
-    ChessPlayerColor currTurn;
-    
-    PreTurnValidator preTurnValidator;
-    EndTurnValidator endTurnValidator;
-    
-    StandardEndTurnStrategy gameStatusResolver;
-  
+	StandardBoard board;
+	GameState turnState;
+
+	PreTurnValidator preTurnValidator;
+	EndTurnValidator endTurnValidator;
+
+	StandardEndTurnStrategy gameStatusResolver;
+
 	public StandardChessGame(ChessPlayerColor movesFirst) {
 		board = new StandardBoard();
-		currTurn = movesFirst;
-		
+		turnState = new GameState(movesFirst);
+
+		buildGame();
+	}
+
+	/**
+	 * This constructor should be used for testing purposes only. The other is used for creating new games.
+	 * @param startingBoard
+	 * @param state
+	 */
+	public StandardChessGame(StandardBoard startingBoard, GameState state) {
+		board = startingBoard;
+		this.turnState = state;
+
+		buildGame();
+	}
+
+	private void buildGame() {
 		preTurnValidator = new PreTurnValidator();
 		endTurnValidator = new EndTurnValidator();
-		
+
 		gameStatusResolver = new StandardEndTurnStrategy(board);
 	}
 
-	@Override
 	public MoveResult makeMove(ChessPieceType pieceType, ChessCoordinate from, ChessCoordinate to)
 			throws ChessException {
-		
-		preTurnValidator.validate(from, to, board);
-		
-		board.movePiece(new StandardPiece(currTurn, pieceType), to);
-		
+
+		preTurnValidator.validate(from, to, board, turnState.getCurrTurn(), pieceType);
+
+		board.movePiece(new StandardPiece(turnState.getCurrTurn(), pieceType), to, from);
+
 		endTurnValidator.validate(from, to, board);
-		
+
+		turnState.updateStateFromSingleMove();
+
 		return gameStatusResolver.getResult();
 	}
 
@@ -48,10 +68,7 @@ public class StandardChessGame implements ChessGame {
 		return board.getPiece(where);
 	}
 
-	@Override
 	public String getPrintableBoard() {
-		// TODO Auto-generated method stub
-		return null;
+		return board.getPrintableBoard();
 	}
-	
 }
