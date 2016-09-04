@@ -125,7 +125,7 @@ public class KingMovementTest {
 		board = new StandardBoard(emptyBoard);
 
 		game = new StandardChessGame(board, state);
-		
+	
 		try {
 			game.makeMove(ChessPieceType.BISHOP, from, to);
 			fail();
