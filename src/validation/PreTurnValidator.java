@@ -48,7 +48,7 @@ public class PreTurnValidator implements Validator {
 		//If the two coordinates are the same (i.e. no movement actually specified)
 		if (to.equals(from)) {
 			throw new PreTurnValidationException(SAME_TO_FROM);
-		}
+		} 
 		
 		if (!CoordinateUtilities.getValidCoordinates().contains(from)) {
 			throw new PreTurnValidationException(to.toString() + " is not a valid coordinate.");
