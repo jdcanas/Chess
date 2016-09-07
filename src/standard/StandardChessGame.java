@@ -10,6 +10,7 @@ import common.GameState;
 import common.MoveResult;
 import strategies.StandardEndTurnStrategy;
 import utilities.CoordinateUtilities;
+import utilities.ValidMoveGenerator;
 import validation.EndTurnValidator;
 import validation.PreTurnValidator;
 import validation.exception.EndTurnValidationException;
@@ -52,7 +53,7 @@ public class StandardChessGame implements ChessGame {
 	public MoveResult makeMove(ChessPieceType pieceType, ChessCoordinate from, ChessCoordinate to)
 			throws ChessException {
 
-		preTurnValidator.validate(from, to, board, turnState.getCurrTurn(), pieceType);
+		preTurnValidator.validate(from, to, board, turnState.getCurrTurn(), pieceType, ValidMoveGenerator.VALIDATE_CHECK);
 
 		board.movePiece(new StandardPiece(turnState.getCurrTurn(), pieceType), to, from);
 

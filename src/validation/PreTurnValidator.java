@@ -22,10 +22,12 @@ public class PreTurnValidator implements Validator {
 	public static final String YOUR_PIECE_IS_THERE = "The location you are moving to has one of your pieces.";
 	
 	StandardMovementValidationStrategy pieceValidationStrategy;
+	boolean isMovingIntoCheckValid;
     
-	public void validate(ChessCoordinate from, ChessCoordinate to, StandardBoard board, ChessPlayerColor color, ChessPieceType piece) throws ChessException {
-		pieceValidationStrategy = 
-				MovementValidationStrategyFactory.getInstance().getStrategy(ChessGameType.STANDARD_CHESS, piece, to, from, board);
+	public void validate(ChessCoordinate from, ChessCoordinate to, StandardBoard board, ChessPlayerColor color, ChessPieceType piece, boolean isMovingIntoCheckValid) throws ChessException {
+		this.isMovingIntoCheckValid = isMovingIntoCheckValid;
+ 		pieceValidationStrategy = 
+				MovementValidationStrategyFactory.getInstance().getStrategy(ChessGameType.STANDARD_CHESS, piece);
 	
 		//Check if the piece the player specified is present at the specified location
 		if (board.getPiece(from) == null ||
@@ -57,11 +59,15 @@ public class PreTurnValidator implements Validator {
 		}
 		
 		//Checks if one of your pieces is at the destination location
-		if (board.getPiece(from) != null && board.getPiece(to) != null &&
+		if (isPieceAtLoc(from, board) && isPieceAtLoc(to, board) &&
 				board.getPiece(from).getColor().equals(board.getPiece(to).getColor())) {
 			throw new PreTurnValidationException(YOUR_PIECE_IS_THERE);
 		}
 		
-		pieceValidationStrategy.validate();
+		pieceValidationStrategy.validate(to, from, board, isMovingIntoCheckValid);
+	}
+	
+	private boolean isPieceAtLoc(ChessCoordinate loc, StandardBoard board) {
+		return board.getPiece(loc) != null;
 	}
 }

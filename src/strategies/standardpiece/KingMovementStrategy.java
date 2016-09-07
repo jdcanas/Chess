@@ -13,8 +13,8 @@ import validation.exception.MovementValidationException;
 
 public class KingMovementStrategy extends StandardMovementValidationStrategy {
 
-	public KingMovementStrategy(ChessCoordinate to, ChessCoordinate from, StandardBoard board) {
-		super(to, from, board);	
+	public KingMovementStrategy() {
+		super();	
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class KingMovementStrategy extends StandardMovementValidationStrategy {
 	public void validateDirection() throws ChessException {
 		//If the king is moving somewhere other than an adjacent square
 		if (!CoordinateUtilities.getAdjacentCoordinates(from).contains(to)) {
-			throw new MovementValidationException(formatErrorMsg(ChessPieceType.KING, from));
+			throw new MovementValidationException(formatMovementErrorMsg(ChessPieceType.KING, from));
 		}
 	}
 

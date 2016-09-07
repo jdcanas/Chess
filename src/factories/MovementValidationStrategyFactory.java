@@ -24,19 +24,19 @@ public class MovementValidationStrategyFactory {
 		return instance;
 	}
 
-	public StandardMovementValidationStrategy getStrategy(ChessGameType gameType, ChessPieceType piece, ChessCoordinate to, ChessCoordinate from, StandardBoard board) {
+	public StandardMovementValidationStrategy getStrategy(ChessGameType gameType, ChessPieceType piece) {
 		StandardMovementValidationStrategy strategy = null;
 
 		switch (gameType) {
 		case STANDARD_CHESS:
-			strategy = getStandardStrategy(piece, to, from, board);
+			strategy = getStandardStrategy(piece);
 			break;
 		}
 
 		return strategy;
 	}
 
-	private StandardMovementValidationStrategy getStandardStrategy(ChessPieceType piece, ChessCoordinate to, ChessCoordinate from, StandardBoard board) {
+	private StandardMovementValidationStrategy getStandardStrategy(ChessPieceType piece) {
 
 		StandardMovementValidationStrategy strategy = null;
 
@@ -48,7 +48,7 @@ public class MovementValidationStrategyFactory {
 			strategy = new StandardKnightMovementStrategy();
 			break;
 		case BISHOP:
-			strategy = new StandardBishopMovementStrategy(to, from, board);
+			strategy = new StandardBishopMovementStrategy();
 			break;
 		case ROOK:
 			strategy = new StandardRookMovementStrategy();
@@ -57,7 +57,7 @@ public class MovementValidationStrategyFactory {
 			strategy = new StandardQueenMovementStrategy();
 			break;
 		case KING:
-			strategy = new KingMovementStrategy(to, from, board);
+			strategy = new KingMovementStrategy();
 			break;
 		}
 

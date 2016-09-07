@@ -14,8 +14,8 @@ import validation.exception.MovementValidationException;
 
 public class StandardBishopMovementStrategy extends StandardMovementValidationStrategy {
 	
-	public StandardBishopMovementStrategy(ChessCoordinate to, ChessCoordinate from, StandardBoard board) {
-		super(to, from, board);	
+	public StandardBishopMovementStrategy() {
+		super();	
 	}
 
 	public void validateDirection() throws MovementValidationException {
@@ -26,11 +26,12 @@ public class StandardBishopMovementStrategy extends StandardMovementValidationSt
 		dY = Math.abs(toY - fromY);
 		
 		if (dX != dY) {
-			throw new MovementValidationException(formatErrorMsg(ChessPieceType.BISHOP, from));
+			throw new MovementValidationException(formatMovementErrorMsg(ChessPieceType.BISHOP, from));
 		}
 	}
 	
 	public ArrayList<ChessCoordinate> getPath() {
-		return CoordinateUtilities.constructDiagonalPath(to, from);
+		return CoordinateUtilities.getDiagonalPath(to, from);
 	}
+
 }

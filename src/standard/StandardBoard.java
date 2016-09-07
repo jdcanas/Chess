@@ -34,11 +34,12 @@ public class StandardBoard {
 			throw new BoardOutOfBoundsException("The coordinate " + to.toString() + " is out of bounds");
 		}
 
+		board.remove(from, piece);
+		pieceLocList.remove(from);
+		pieceLocList.remove(to);
+		
 		board.put(to, piece);
 		pieceLocList.add(to);
-
-		board.remove(from, piece);
-		pieceLocList.remove(to);
 	}
 
 	public StandardPiece getPiece(ChessCoordinate from) {
@@ -137,7 +138,7 @@ public class StandardBoard {
 		for (int y = 7; y >= 0; y--) {
 			printableBoard += "\n" + Integer.toString(y + 1) + "|"; //Begin a new row
 
-			for (int x = 7; x >= 0; x--) {
+			for (int x = 0; x < 8; x++) {
 				currCoordinate = new StandardCoordinate(x, y);
 				currPiece = board.get(currCoordinate); 
 
@@ -152,6 +153,10 @@ public class StandardBoard {
 		printableBoard += endingRow;
 
 		return printableBoard;
+	}
+
+	public HashMap<ChessCoordinate, StandardPiece> getUnderlyingBoard() {
+		return board;
 	}
 
 }

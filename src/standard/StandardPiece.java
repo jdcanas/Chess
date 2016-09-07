@@ -27,7 +27,16 @@ public class StandardPiece implements ChessPiece {
 	public String toString() {
 		return playerColor.getSymbol() + "_" + pieceType.getSymbol();
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((pieceType == null) ? 0 : pieceType.hashCode());
+		result = prime * result + ((playerColor == null) ? 0 : playerColor.hashCode());
+		return result;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -43,5 +52,6 @@ public class StandardPiece implements ChessPiece {
 			return false;
 		return true;
 	}
+	
  
 }

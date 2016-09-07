@@ -107,27 +107,20 @@ public class KingMovementTest {
 			game.makeMove(ChessPieceType.KING, from, to);
 			fail();
 		} catch (MovementValidationException e) {
-			assertEquals(StandardMovementValidationStrategy.formatErrorMsg(ChessPieceType.KING, from),
+			assertEquals(StandardMovementValidationStrategy.formatMovementErrorMsg(ChessPieceType.KING, from),
 					e.getMessage());
 		}
 	}
 	
 	@Test 
 	public void putOwnKingInCheckByMovingKingTest() throws ChessException {
-		ChessCoordinate blackBishopLoc = StandardCoordinate.make('e', 5);
-		ChessCoordinate whiteBishopLoc = StandardCoordinate.make('d', 6);
-		emptyBoard.put(blackBishopLoc, blackBishop);
-		emptyBoard.put(whiteBishopLoc, whiteBishop);
-		
-		from = (StandardCoordinate) whiteBishopLoc;
-		to = StandardCoordinate.make('c', 5);
-
+		to = StandardCoordinate.make('b', 7);
 		board = new StandardBoard(emptyBoard);
 
 		game = new StandardChessGame(board, state);
 	
 		try {
-			game.makeMove(ChessPieceType.BISHOP, from, to);
+			game.makeMove(ChessPieceType.KING, from, to);
 			fail();
 		} catch (MovePutsKingInCheckException e) {
 			assertEquals(KingValidator.MOVE_PUTS_KING_IN_CHECK,

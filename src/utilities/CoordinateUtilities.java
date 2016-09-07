@@ -11,19 +11,22 @@ public class CoordinateUtilities {
 	//pieces can be taken and landing on your own piece is checked elsewhere
 	public static final int IGNORE_FINAL_SPACE_OFFSET = 1;
 
-	public static ArrayList<ChessCoordinate> constructDiagonalPath(ChessCoordinate to, ChessCoordinate from) {
+	public static ArrayList<ChessCoordinate> getDiagonalPath(ChessCoordinate to, ChessCoordinate from) {
 		ArrayList<ChessCoordinate> path = new ArrayList<ChessCoordinate>();
 		int xDistance, yDistance;
 		int xDirection, yDirection;
 		int xNew, yNew;
 		
-		xDistance = from.getX() - to.getX() - IGNORE_FINAL_SPACE_OFFSET;
-		yDistance = from.getY() - to.getY() - IGNORE_FINAL_SPACE_OFFSET;
+		xDistance = to.getX() - from.getX();
+		yDistance = to.getY() - from.getY();
+		
 		
 		//Gets the sign (aka direction with respect to the coordinate plane of the board)
 		xDirection = getSign(xDistance);
 		yDirection = getSign(yDistance);
 		
+		xDistance = Math.abs(xDistance);
+	
 		for (int i = 1; i < xDistance; i++) {
 			xNew = from.getX() + (i * xDirection);
 			yNew = from.getY() + (i * yDirection);
@@ -32,6 +35,34 @@ public class CoordinateUtilities {
 		
 		return path;
 	}
+
+
+	public static ArrayList<ChessCoordinate> getHorizontalPath(ChessCoordinate to, ChessCoordinate from) {
+		ArrayList<ChessCoordinate> path = new ArrayList<ChessCoordinate>();
+		int xDistance, yDistance, distance;
+		int xNew, yNew, xIncrease, yIncrease;
+		int xDirection, yDirection;
+		
+		xDistance = to.getX() - from.getX();
+		yDistance = to.getY() - from.getY();
+		
+		xDirection = getSign(xDistance);
+		yDirection = getSign(yDistance);
+		
+		distance = xDistance != 0 ? xDistance : yDistance;
+		distance = Math.abs(distance);
+		
+		for (int i = 1; i < distance; i++) {
+			xIncrease = xDistance != 0 ? i : 0;
+			yIncrease = yDistance != 0 ? i : 0;
+			
+			xNew = from.getX() + xIncrease * xDirection;
+			yNew = from.getY() + yIncrease * yDirection;
+			path.add(new StandardCoordinate(xNew, yNew));
+		}
+		
+		return path;
+	}	
 	
 	public static ArrayList<ChessCoordinate> getValidCoordinates() {
 		ArrayList<ChessCoordinate> coordinates = new ArrayList<ChessCoordinate>();
@@ -71,5 +102,9 @@ public class CoordinateUtilities {
 		sign = sign == 0 ? 1 : sign;
 		
 		return sign;
-	}	
+	}
+	
+	private static int getOppositeSign(int num) {
+		return getSign(num) == 1 ? -1 : 1;
+	}
 }

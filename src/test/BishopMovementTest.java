@@ -53,7 +53,7 @@ public class BishopMovementTest {
 			game.makeMove(ChessPieceType.BISHOP, from, to);
 			fail();
 		} catch (MovementValidationException e) {
-			assertEquals(StandardMovementValidationStrategy.formatErrorMsg(ChessPieceType.BISHOP, from), 
+			assertEquals(StandardMovementValidationStrategy.formatMovementErrorMsg(ChessPieceType.BISHOP, from), 
 					e.getMessage());
 		}
 	}
@@ -67,7 +67,7 @@ public class BishopMovementTest {
 			game.makeMove(ChessPieceType.BISHOP, from, to);
 			fail();
 		} catch (MovementValidationException e) {
-			assertEquals(StandardMovementValidationStrategy.formatErrorMsg(ChessPieceType.BISHOP, from), 
+			assertEquals(StandardMovementValidationStrategy.formatMovementErrorMsg(ChessPieceType.BISHOP, from), 
 					e.getMessage());
 		}
 	}

@@ -45,9 +45,9 @@ public class StandardCoordinate implements ChessCoordinate {
 	 * Gets the list of coordinates adjacent to the given coordinate
 	 * @return the list of adjacent coordinates
 	 */
-	public List<ChessCoordinate> getAdjacencyList() {
+	public ArrayList<ChessCoordinate> getAdjacencyList() {
 		int dx, dy;
-		List<ChessCoordinate> adjacencyList = new ArrayList<ChessCoordinate>();
+		ArrayList<ChessCoordinate> adjacencyList = new ArrayList<ChessCoordinate>();
 
 		for (dx = -1; dx <= 1; dx++) {
 			for (dy = -1; dy <= 1; dy++) {
