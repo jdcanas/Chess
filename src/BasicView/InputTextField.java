@@ -17,6 +17,9 @@ public class InputTextField extends JFormattedTextField {
 		super();
 		fieldFormat = getFormat(COORDINATE_NUM_FIELD_FORMAT_FLAG);
 		setSize();
+		this.moveCaretPosition(CENTER);
+		this.setEditable(true);
+		this.setVisible(ViewConstants.IS_VIEW_VISIBLE);
 	}
 
 	public static Format getFormat(int formatFlag) {

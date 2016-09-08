@@ -1,7 +1,9 @@
 package run;
 
+import BasicView.BaseView;
+
 public class Main {
 	public static void main(String[] args) {
-		System.out.println("hi");
+		BaseView view = new BaseView();
 	}
 }

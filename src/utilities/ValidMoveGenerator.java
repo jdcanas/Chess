@@ -56,8 +56,7 @@ public class ValidMoveGenerator {
 		moveValidator = new PreTurnValidator();
 		this.isMovingIntoCheckValid = isMovingIntoCheckValid;
 		
-		validMoves = generateValidMoves(isMovingIntoCheckValid);
-		return validMoves;
+		return generateValidMoves(isMovingIntoCheckValid);
 	}
 
 	private ArrayList<ChessCoordinate> generateValidMoves(boolean isMovingIntoCheckValid) {

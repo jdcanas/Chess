@@ -6,11 +6,13 @@ public class MoveInputPanel extends JPanel {
 	
 	public MoveInputPanel() {
 		super();
+		build();
 	}
 	
 	public void build() {
 		setSize();
 		addInputFields();
+		this.setVisible(ViewConstants.IS_VIEW_VISIBLE);
 	}
 
 	public void setSize() {

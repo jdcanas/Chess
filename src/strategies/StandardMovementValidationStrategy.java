@@ -10,7 +10,7 @@ import common.ChessPlayerColor;
 import standard.StandardBoard;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
-import validation.KingValidator;
+import validation.CheckValidator;
 import validation.Validator;
 import validation.exception.MovePutsKingInCheckException;
 import validation.exception.MovementValidationException;
@@ -71,8 +71,8 @@ public abstract class StandardMovementValidationStrategy implements Validator {
 	}
 	
 	private void validateYourKingInNotCheck() throws ChessException {	 
-		KingValidator kingValidator = new KingValidator();
-		kingValidator.validate(to, from, board);
+		CheckValidator kingValidator = new CheckValidator();
+		kingValidator.validate(to, from, board, isMovingIntoCheckValid);
 	}
 	
 	private void validateKingNotInCheckFromKing(ChessCoordinate to, ChessCoordinate from, StandardBoard board) throws ChessException {
@@ -81,7 +81,7 @@ public abstract class StandardMovementValidationStrategy implements Validator {
 		for (ChessCoordinate c: possibleKingLoc) {
 			if (board.getPiece(c) != null && !c.equals(from) && //assure there is a piece at the location and the piece isn't the king in question
 					board.getPiece(c).getType() == ChessPieceType.KING) {
-				throw new MovePutsKingInCheckException(KingValidator.MOVE_PUTS_KING_IN_CHECK);
+				throw new MovePutsKingInCheckException(CheckValidator.MOVE_PUTS_KING_IN_CHECK);
 			}
 		}
 		

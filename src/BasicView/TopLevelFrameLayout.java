@@ -21,7 +21,7 @@ public class TopLevelFrameLayout extends SpringLayout {
 		setupActionListeners();
 
 		addComponents();
-		configureComponent(testBox, baseFrame);
+		configureComponent(this.testBox, this.baseFrame);
 		
 		setIcons();
 	}
@@ -39,10 +39,8 @@ public class TopLevelFrameLayout extends SpringLayout {
 	}
 	
 	private void configureComponent(Component c, Component c2) {
-		putConstraint(SpringLayout.NORTH, c, 0, SpringLayout.NORTH, c2);	//Adds the end date field underneath the radio buttons panel
-		putConstraint(SpringLayout.SOUTH, c, 0, SpringLayout.SOUTH, c2);	
-		putConstraint(SpringLayout.WEST, c, 0, SpringLayout.WEST, c2);					//Makes sure the left side of the panel stretches with the left side of the container
-		putConstraint(SpringLayout.EAST, c, 0, SpringLayout.EAST, c2);
+		putConstraint(SpringLayout.NORTH, c, 30, SpringLayout.NORTH, c2);	
+		putConstraint(SpringLayout.WEST, c, 10, SpringLayout.WEST, c2);	
 	}
 
 }

@@ -8,10 +8,10 @@ import javax.swing.SpringLayout;
 
 public class BaseView {
 	JFrame frame;
+	MoveInputPanel moveInput;
 	
 	public BaseView() {
 		setBaseFrame();
-		setLayout();
 	}
 
 	public void setBaseFrame() {
@@ -29,6 +29,7 @@ public class BaseView {
 		frame.getContentPane().add(testComp, BorderLayout.CENTER);
 		
 		configurePanels();
+		setLayout();
 
 		//4. Size the frame.
 		ViewUtilities.setSize(ViewConstants.BASE_X_SIZE, ViewConstants.BASE_Y_SIZE, frame);
@@ -39,13 +40,13 @@ public class BaseView {
 	}
 	
 	public void setLayout() {
-		TopLevelFrameLayout mainLayout = new TopLevelFrameLayout(new MoveInputPanel(), frame);
+		TopLevelFrameLayout mainLayout = new TopLevelFrameLayout(moveInput, frame);
 		frame.setLayout(mainLayout);
 	}
 	
 	public void configurePanels() {
-		MoveInputPanel moveInput = new MoveInputPanel();
-		frame.add(moveInput);
+		moveInput = new MoveInputPanel();
+		frame.getContentPane().add(moveInput);
 	}
 
 }

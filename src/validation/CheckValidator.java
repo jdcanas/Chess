@@ -15,12 +15,11 @@ import standard.StandardBoard;
 import standard.StandardPiece;
 import strategies.StandardMovementValidationStrategy;
 import utilities.ValidMoveGenerator;
+import validation.exception.KingNotFoundException;
 import validation.exception.MovePutsKingInCheckException;
 import validation.exception.MovementValidationException;
 
-public class KingValidator {
-	ValidMoveGenerator moveGenerator;
-
+public class CheckValidator {
 	public static final String MOVE_PUTS_KING_IN_CHECK = "The move you attempted to make would leave your King in check.";
 
 	protected ChessCoordinate to;
@@ -28,25 +27,29 @@ public class KingValidator {
 	protected StandardBoard board;
 	public ChessCoordinate kingLoc;
 
-	public void validate(ChessCoordinate to, ChessCoordinate from, StandardBoard board) throws ChessException {
+	public void validate(ChessCoordinate to, ChessCoordinate from, StandardBoard board, boolean isMovingIntoCheckValid) throws ChessException {
 		this.to = to;
 		this.from = from;
 		StandardPiece piece = new StandardPiece(board.getPiece(from).getColor(), board.getPiece(from).getType());
 		HashMap<ChessCoordinate, StandardPiece> underlyingBoard;
-		
+
 		underlyingBoard = (HashMap<ChessCoordinate, StandardPiece>) board.getUnderlyingBoard().clone();
-		
+
 		StandardBoard nextTurnBoard = new StandardBoard(underlyingBoard);
 		nextTurnBoard.movePiece(piece, to, from);
-		
-		kingLoc = nextTurnBoard.getKingLocation(piece.getColor());
-		
+		board = nextTurnBoard;
+		validate(nextTurnBoard, piece.getColor(), isMovingIntoCheckValid);
+	}
+
+	public static void validate(StandardBoard nextTurnBoard, ChessPlayerColor pieceColor, boolean isMovingintoCheckValid) throws KingNotFoundException, MovePutsKingInCheckException {
+		ChessCoordinate kingLoc = nextTurnBoard.getKingLocation(pieceColor);
+
 		Set<ChessCoordinate> totalLocationsUnderAttack = new HashSet<ChessCoordinate>();
 		ArrayList<ChessCoordinate> newLocationsUnderAttack;
 
 		ArrayList<ChessCoordinate> pieceLocations = nextTurnBoard.getPieceLocations();
 		for (ChessCoordinate currCoordinate: pieceLocations) {
-			newLocationsUnderAttack = getValidMoves(currCoordinate, nextTurnBoard, nextTurnBoard.getPiece(to).getColor());
+			newLocationsUnderAttack = getValidMoves(currCoordinate, nextTurnBoard, ChessPlayerColor.getOppositeColor(pieceColor), isMovingintoCheckValid);
 			totalLocationsUnderAttack.addAll(newLocationsUnderAttack);
 		}
 
@@ -56,7 +59,7 @@ public class KingValidator {
 
 	}
 
-	public ArrayList<ChessCoordinate> getValidMoves(ChessCoordinate pieceLoc, StandardBoard board, ChessPlayerColor color) {
+	public static ArrayList<ChessCoordinate> getValidMoves(ChessCoordinate pieceLoc, StandardBoard board, ChessPlayerColor color, boolean isMovingIntoCheckValid) {
 		ArrayList<ChessCoordinate> validMoves = new ArrayList<ChessCoordinate>();
 
 		if (color == board.getPiece(pieceLoc).getColor()) {
@@ -65,9 +68,9 @@ public class KingValidator {
 
 		StandardPiece piece = new StandardPiece(board.getPiece(pieceLoc).getColor(), board.getPiece(pieceLoc).getType());
 
-		moveGenerator = new ValidMoveGenerator(ValidMoveGenerator.DONT_VALIDATE_CHECK);
+		ValidMoveGenerator moveGenerator = new ValidMoveGenerator(isMovingIntoCheckValid);
 
-		validMoves = moveGenerator.getValidMoves(ChessGameType.STANDARD_CHESS, piece.getColor(), piece.getType(), pieceLoc, board, true);
+		validMoves = moveGenerator.getValidMoves(ChessGameType.STANDARD_CHESS, piece.getColor(), piece.getType(), pieceLoc, board, isMovingIntoCheckValid);
 
 		return validMoves;
 	}

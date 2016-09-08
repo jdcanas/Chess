@@ -16,7 +16,7 @@ import standard.StandardBoard;
 import standard.StandardChessGame;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
-import validation.KingValidator;
+import validation.CheckValidator;
 import validation.exception.MovePutsKingInCheckException;
 
 public class RookMovementTest {
@@ -85,7 +85,7 @@ public class RookMovementTest {
 			game.makeMove(ChessPieceType.ROOK, from, to);
 			fail();
 		} catch (MovePutsKingInCheckException e) {
-			assertEquals(KingValidator.MOVE_PUTS_KING_IN_CHECK, 
+			assertEquals(CheckValidator.MOVE_PUTS_KING_IN_CHECK, 
 					e.getMessage());
 		}
 		

@@ -5,8 +5,8 @@ public class ViewConstants {
 	public static final int BASE_X_SIZE = 500;
 	public static final int BASE_Y_SIZE = 500;
 	
-	public static final int MOVE_INPUT_PANEL_X = BASE_X_SIZE / 4;
-	public static final int MOVE_INPUT_PANEL_Y = BASE_Y_SIZE / 4;
+	public static final int MOVE_INPUT_PANEL_X = 20;
+	public static final int MOVE_INPUT_PANEL_Y = 30;
 	
 	public static final int BASE_TEXT_FIELD_X = 100;
 	public static final int BASE_TEXT_FIELD_Y = 100;

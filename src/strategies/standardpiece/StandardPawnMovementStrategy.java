@@ -28,7 +28,18 @@ public class StandardPawnMovementStrategy extends StandardMovementValidationStra
 		if (dX == dY) {
 			isDiagonal = true;
 		}
-
+		
+		//validate direction
+		if (pawn.getColor() == ChessPlayerColor.WHITE) {
+			if (to.getY() - from.getY() < 0) {
+				throw new MovementValidationException(formatMovementErrorMsg(ChessPieceType.PAWN, from));
+			}
+		} else {
+			if (to.getY() - from.getY() > 0) {
+				throw new MovementValidationException(formatMovementErrorMsg(ChessPieceType.PAWN, from));
+			}
+		}
+		
 		if (isDiagonal) {
 			validateDiagonalPawn();	
 		} else {
@@ -65,6 +76,7 @@ public class StandardPawnMovementStrategy extends StandardMovementValidationStra
 		if (board.getPiece(to) != null) {
 			throw new MovementValidationException(formatMovementErrorMsg(ChessPieceType.PAWN, from));
 		}
+		
 		int allowedHorizontalDistance = from.getY() == startingRow ? 2 : 1;
 		if (dY > allowedHorizontalDistance || dX != 0) { 
 			throw new MovementValidationException(formatMovementErrorMsg(ChessPieceType.PAWN, from));
