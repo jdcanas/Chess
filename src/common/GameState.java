@@ -3,45 +3,38 @@ package common;
 public class GameState {
 	private ChessPlayerColor movesFirst;
 	private ChessPlayerColor movesSecond;
-	private ChessPlayerColor currTurn;
+	private ChessPlayerColor currPlayer;
 	private int turn;
 	
 	public GameState(ChessPlayerColor movesFirst) {
 		this.movesFirst = movesFirst;
-		this.movesSecond = getOppositeColor(movesFirst);
-		this.currTurn = movesFirst;
+		this.movesSecond = ChessPlayerColor.getOppositeColor(movesFirst);
+		this.currPlayer = movesFirst;
 		this.turn = 0;
 	}
 	
 	public GameState(ChessPlayerColor movesFirst, ChessPlayerColor currTurn, int turn) {
 		this.movesFirst = movesFirst;
-		this.movesSecond = getOppositeColor(movesFirst);
-		this.currTurn = currTurn;
+		this.movesSecond = ChessPlayerColor.getOppositeColor(movesFirst);
+		this.currPlayer = currTurn;
 		this.turn = turn;
 	}
 
-	public ChessPlayerColor getCurrTurn() {
-		return currTurn;
+	public ChessPlayerColor getCurrPlayer() {
+		return currPlayer;
 	}
 	
 	public void updateStateFromSingleMove() {
-		if (currTurn == movesFirst) {
-			currTurn = movesSecond;
+		if (currPlayer == movesFirst) {
+			currPlayer = movesSecond;
 		} else {
-			currTurn = movesFirst;
+			currPlayer = movesFirst;
 			turn++;
 		}
 	}
 	
-	public ChessPlayerColor getOppositeColor(ChessPlayerColor color) {
-		ChessPlayerColor oppositeColor;
-		if (color == ChessPlayerColor.BLACK) {
-			oppositeColor = ChessPlayerColor.WHITE;
-		} else {
-			oppositeColor = ChessPlayerColor.BLACK;
-		}
-		
-		return oppositeColor;
+	public int getTurn() {
+		return turn;
 	}
 	
 }

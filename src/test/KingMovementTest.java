@@ -17,7 +17,7 @@ import standard.StandardChessGame;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
 import strategies.StandardMovementValidationStrategy;
-import validation.KingValidator;
+import validation.CheckValidator;
 import validation.PreTurnValidator;
 import validation.exception.KingNotFoundException;
 import validation.exception.MovePutsKingInCheckException;
@@ -123,7 +123,7 @@ public class KingMovementTest {
 			game.makeMove(ChessPieceType.KING, from, to);
 			fail();
 		} catch (MovePutsKingInCheckException e) {
-			assertEquals(KingValidator.MOVE_PUTS_KING_IN_CHECK,
+			assertEquals(CheckValidator.MOVE_PUTS_KING_IN_CHECK,
 					e.getMessage());
 		}
 	}

@@ -53,9 +53,9 @@ public class StandardChessGame implements ChessGame {
 	public MoveResult makeMove(ChessPieceType pieceType, ChessCoordinate from, ChessCoordinate to)
 			throws ChessException {
 
-		preTurnValidator.validate(from, to, board, turnState.getCurrTurn(), pieceType, ValidMoveGenerator.VALIDATE_CHECK);
+		preTurnValidator.validate(from, to, board, turnState.getCurrPlayer(), pieceType, ValidMoveGenerator.VALIDATE_CHECK);
 
-		board.movePiece(new StandardPiece(turnState.getCurrTurn(), pieceType), to, from);
+		board.movePiece(new StandardPiece(turnState.getCurrPlayer(), pieceType), to, from);
 
 		endTurnValidator.validate(from, to, board);
 

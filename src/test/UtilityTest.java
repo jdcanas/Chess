@@ -20,6 +20,7 @@ import standard.StandardCoordinate;
 import standard.StandardPiece;
 import utilities.CoordinateUtilities;
 import utilities.ValidMoveGenerator;
+import validation.CheckValidator;
 
 public class UtilityTest {
 	HashMap<ChessCoordinate, StandardPiece> emptyBoard;
@@ -39,26 +40,30 @@ public class UtilityTest {
 		blackKing = new StandardPiece(ChessPlayerColor.BLACK, ChessPieceType.KING);
 		whiteKing = new StandardPiece(ChessPlayerColor.WHITE, ChessPieceType.KING);
 		emptyBoard.put(StandardCoordinate.make('a', 7), blackKing);
-		emptyBoard.put(from, whiteKing);
 	}
 
 	@Test
 	public void testLetterCoordinate() {
 		StandardCoordinate c = StandardCoordinate.make('a',0);
+		emptyBoard.put(from, whiteKing);
 		
 		assertEquals(0,c.getX());
 	}
 	
 	@Test
 	public void testGetAdjacentCoordinates() {
+		emptyBoard.put(from, whiteKing);
+		
 		ChessCoordinate center = StandardCoordinate.make('e',4);
 		ArrayList<ChessCoordinate> adjacencyList = CoordinateUtilities.getAdjacentCoordinates(center);
+		
 		
 		assertEquals(8, adjacencyList.size());
 	}
 	
 	@Test
 	public void testGetHorizontalPath() {
+		emptyBoard.put(from, whiteKing);
 		ChessCoordinate from = StandardCoordinate.make('a', 7);
 		ChessCoordinate to = StandardCoordinate.make('a', 0);
 		
@@ -69,6 +74,7 @@ public class UtilityTest {
 	
 	@Test
 	public void testGetHorizontalPath_2() {
+		emptyBoard.put(from, whiteKing);
 		ChessCoordinate from = StandardCoordinate.make('a', 7);
 		ChessCoordinate to = StandardCoordinate.make('a', 5);
 		
@@ -80,6 +86,7 @@ public class UtilityTest {
 	
 	@Test
 	public void testGetDiagonalPath_2() {
+		emptyBoard.put(from, whiteKing);
 		ChessCoordinate from = StandardCoordinate.make('a', 7);
 		ChessCoordinate to = StandardCoordinate.make('c', 5);
 		
@@ -92,6 +99,7 @@ public class UtilityTest {
 	
 	@Test
 	public void testGetDiagonalPath_3() {
+		emptyBoard.put(from, whiteKing);
 		ChessCoordinate from = StandardCoordinate.make('c', 5);
 		ChessCoordinate to = StandardCoordinate.make('a', 7);
 		
@@ -103,6 +111,7 @@ public class UtilityTest {
 	
 	@Test
 	public void testValidMoveGenerator() throws ChessException {
+		emptyBoard.put(from, whiteKing);
 		ArrayList<ChessCoordinate> knownValidMoves = CoordinateUtilities.getAdjacentCoordinates(from);
 		knownValidMoves.remove(StandardCoordinate.make('b', 7));
 		knownValidMoves.remove(StandardCoordinate.make('b', 6));		
@@ -117,6 +126,48 @@ public class UtilityTest {
 		assertEquals(2, board.getPieceLocations().size());
 		assertEquals(3, moveGenerator.getValidMoves().size());
 		
+	}
+	
+	@Test
+	public void testValidMoveGenerator_King_Check_Validator() throws ChessException {
+		from = StandardCoordinate.make('b', 7);
+		emptyBoard.put(from, whiteKing);
+		board = new StandardBoard(emptyBoard);
+		game = new StandardChessGame(board, state);
+		
+		ValidMoveGenerator moveGenerator = new ValidMoveGenerator(
+				ChessGameType.STANDARD_CHESS, ChessPlayerColor.WHITE, ChessPieceType.KING, from, board, ValidMoveGenerator.DONT_VALIDATE_CHECK);
+		
+		for (ChessCoordinate c: CheckValidator.movesToCoordinates(moveGenerator.getValidMoves())) {
+			System.out.println(c);
+		}
+		
+		assertEquals(whiteKing, board.getPiece(from));
+		assertEquals(2, board.getPieceLocations().size());
+		assertEquals(3, moveGenerator.getValidMoves().size());
+		
+	}
+	
+	@Test
+	public void testValidMoveGenerator_PAWN() throws ChessException {
+		StandardPiece whitePawn = new StandardPiece(ChessPlayerColor.WHITE, ChessPieceType.PAWN);
+		from = StandardCoordinate.make('a', 1);
+		board = new StandardBoard(StandardBoard.initStandardBoard());
+
+		ValidMoveGenerator moveGenerator = new ValidMoveGenerator(
+				ChessGameType.STANDARD_CHESS, ChessPlayerColor.WHITE, ChessPieceType.PAWN, from, board, ValidMoveGenerator.DONT_VALIDATE_CHECK);
+		
+
+		for (ChessCoordinate c: CheckValidator.movesToCoordinates(moveGenerator.getValidMoves())) {
+			System.out.println(c);
+		}
+		
+		
+		assertEquals(whitePawn, board.getPiece(from));
+		assertEquals(2, moveGenerator.getValidMoves().size());
+		
+		assertTrue(moveGenerator.getValidMoves().contains(StandardCoordinate.make('a', 2)));
+		assertTrue(moveGenerator.getValidMoves().contains(StandardCoordinate.make('a', 3)));
 	}
 
 }

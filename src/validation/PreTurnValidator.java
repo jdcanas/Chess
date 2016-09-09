@@ -50,12 +50,20 @@ public class PreTurnValidator implements Validator {
 			throw new PreTurnValidationException(SAME_TO_FROM);
 		} 
 		
-		if (!CoordinateUtilities.getValidCoordinates().contains(from)) {
+		if (to.getX() > 7 || to.getX() < 0) {
 			throw new PreTurnValidationException(to.toString() + " is not a valid coordinate.");
 		}
 		
-		if (!CoordinateUtilities.getValidCoordinates().contains(to)) {
+		if (to.getY() > 7 || to.getY() < 0) {
+			throw new PreTurnValidationException(to.toString() + " is not a valid coordinate.");
+		}
+		
+		if (!CoordinateUtilities.getValidCoordinates().contains(from)) {
 			throw new PreTurnValidationException(from.toString() + " is not a valid coordinate.");
+		}
+		
+		if (!CoordinateUtilities.getValidCoordinates().contains(to)) {
+			throw new PreTurnValidationException(to.toString() + " is not a valid coordinate.");
 		}
 		
 		//Checks if one of your pieces is at the destination location

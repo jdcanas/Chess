@@ -15,7 +15,7 @@ import standard.StandardChessGame;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
 import strategies.StandardMovementValidationStrategy;
-import validation.KingValidator;
+import validation.CheckValidator;
 import validation.PreTurnValidator;
 import validation.exception.MovePutsKingInCheckException;
 import validation.exception.MovementValidationException;
@@ -60,8 +60,7 @@ public class ValidMoveGenerator {
 		moveValidator = new PreTurnValidator();
 		this.isMovingIntoCheckValid = isMovingIntoCheckValid;
 		
-		validMoves = generateValidMoves(isMovingIntoCheckValid);
-		return validMoves;
+		return generateValidMoves(isMovingIntoCheckValid);
 	}
 
 	private ArrayList<Move> generateValidMoves(boolean isMovingIntoCheckValid) {

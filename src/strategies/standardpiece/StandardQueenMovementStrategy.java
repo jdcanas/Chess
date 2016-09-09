@@ -9,7 +9,7 @@ import common.ChessPieceType;
 import factories.MovementValidationStrategyFactory;
 import strategies.StandardMovementValidationStrategy;
 import utilities.ValidMoveGenerator;
-import validation.KingValidator;
+import validation.CheckValidator;
 import validation.exception.MovementValidationException;
 
 public class StandardQueenMovementStrategy extends StandardMovementValidationStrategy {

@@ -42,12 +42,16 @@ public enum ChessPlayerColor
 	{
 		return printableName;
 	}
-
+	
+	
 	public static ChessPlayerColor getOppositeColor(ChessPlayerColor color) {
-		if (color == ChessPlayerColor.WHITE) {
-			return BLACK;
+		ChessPlayerColor oppositeColor;
+		if (color == BLACK) {
+			oppositeColor = WHITE;
 		} else {
-			return WHITE;
+			oppositeColor = BLACK;
 		}
+		
+		return oppositeColor;
 	}
 }
