@@ -20,8 +20,8 @@ import standard.StandardPiece;
 public class PawnMovementTest {
 
 	HashMap<ChessCoordinate, StandardPiece> emptyBoard;
-	StandardPiece whitePawn;
-	StandardPiece blackPawn;
+	StandardPiece whitePawn, whiteKing;
+	StandardPiece blackPawn, blackKing;
 	StandardCoordinate to, from;
 	StandardChessGame game;
 	StandardBoard board;
@@ -36,6 +36,8 @@ public class PawnMovementTest {
 		emptyBoard = new HashMap<ChessCoordinate, StandardPiece>();
 		whitePawn = new StandardPiece(ChessPlayerColor.WHITE, ChessPieceType.PAWN);
 		blackPawn = new StandardPiece(ChessPlayerColor.BLACK, ChessPieceType.PAWN);
+		whiteKing = new StandardPiece(ChessPlayerColor.WHITE, ChessPieceType.KING);
+		blackKing = new StandardPiece(ChessPlayerColor.BLACK, ChessPieceType.KING);
 	}
 
 	@Test
@@ -45,6 +47,49 @@ public class PawnMovementTest {
 		assertEquals(board.getPiece(from), whitePawn);
 		game.makeMove(ChessPieceType.PAWN, from, to);
 		assertEquals(board.getPiece(to), whitePawn);
+		
+	}
+	
+	@Test
+	public void testBasicPawnMovement_2() throws ChessException {
+		to = StandardCoordinate.make('a', 3);
+		
+		emptyBoard.put(from, whitePawn);
+		emptyBoard.put(StandardCoordinate.make('a', 6), blackPawn);
+		emptyBoard.put(StandardCoordinate.make('e', 0), whiteKing);
+		emptyBoard.put(StandardCoordinate.make('e', 7), blackKing);
+		
+		
+		board = new StandardBoard(emptyBoard);
+		
+		game = new StandardChessGame(board, state);
+		
+		assertEquals(board.getPiece(from), whitePawn);
+		game.makeMove(ChessPieceType.PAWN, from, to);
+		assertEquals(board.getPiece(to), whitePawn);
+				
+		
+	}
+	
+	@Test
+	public void testBasicPawnMovement_3() throws ChessException {
+		to = StandardCoordinate.make('a', 3);
+		
+		emptyBoard.put(from, whitePawn);
+		emptyBoard.put(StandardCoordinate.make('a', 6), blackPawn);
+		emptyBoard.put(StandardCoordinate.make('e', 0), whiteKing);
+		emptyBoard.put(StandardCoordinate.make('e', 7), blackKing);
+		emptyBoard.put(StandardCoordinate.make('e', 6), blackPawn);
+		emptyBoard.put(StandardCoordinate.make('e', 1), whitePawn);
+		
+		board = new StandardBoard(emptyBoard);
+		
+		game = new StandardChessGame(board, state);
+		
+		assertEquals(board.getPiece(from), whitePawn);
+		game.makeMove(ChessPieceType.PAWN, from, to);
+		assertEquals(board.getPiece(to), whitePawn);
+				
 		
 	}
 

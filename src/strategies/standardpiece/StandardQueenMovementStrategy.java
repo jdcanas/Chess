@@ -8,6 +8,8 @@ import common.ChessGameType;
 import common.ChessPieceType;
 import factories.MovementValidationStrategyFactory;
 import strategies.StandardMovementValidationStrategy;
+import utilities.ValidMoveGenerator;
+import validation.KingValidator;
 import validation.exception.MovementValidationException;
 
 public class StandardQueenMovementStrategy extends StandardMovementValidationStrategy {
@@ -34,8 +36,11 @@ public class StandardQueenMovementStrategy extends StandardMovementValidationStr
 			movementStrategy = horizontalStrategy;
 		}
 		
+		movementStrategy.setFrom(from);
+		movementStrategy.setTo(to);
+		
 		try {
-			movementStrategy.validate(to, from, board);
+			movementStrategy.validateDirection();
 		} catch (MovementValidationException e) {
 			throw new MovementValidationException(e.getMessage().replace("Rook", "Queen").replace("Bishop", "Queen"));			
 		}

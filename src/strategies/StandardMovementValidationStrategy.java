@@ -10,12 +10,13 @@ import common.ChessPlayerColor;
 import standard.StandardBoard;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
+import utilities.ValidMoveGenerator;
 import validation.KingValidator;
 import validation.Validator;
 import validation.exception.MovePutsKingInCheckException;
 import validation.exception.MovementValidationException;
 
-public abstract class StandardMovementValidationStrategy implements Validator {
+public abstract class StandardMovementValidationStrategy {
 	protected ChessCoordinate to;
 	protected ChessCoordinate from;
 	protected StandardBoard board;
@@ -31,23 +32,18 @@ public abstract class StandardMovementValidationStrategy implements Validator {
 		
 	}
 
-	@Override
-	public void validate(ChessCoordinate to, ChessCoordinate from, StandardBoard board) throws ChessException {
+	public void validate(ChessCoordinate to, ChessCoordinate from, StandardBoard board,
+			boolean isMovingIntoCheckValid) throws ChessException {
 		this.to = to;
 		this.from = from;
 		this.board = board;
-		this.isMovingIntoCheckValid = false;
-		baseValidate();
-	}
-
-	public void validate(ChessCoordinate to, ChessCoordinate from, StandardBoard board,
-			boolean isMovingIntoCheckValid) throws ChessException {
 		this.isMovingIntoCheckValid = isMovingIntoCheckValid;
-		validate(to, from, board); 
+		
+		baseValidate();
 		
 		if (ChessPieceType.KING == board.getPiece(from).getType()) {
 			validateKingNotInCheckFromKing(to, from, board);
-		} else if (!isMovingIntoCheckValid) {
+		} else if (isMovingIntoCheckValid == ValidMoveGenerator.VALIDATE_CHECK) {
 			validateYourKingInNotCheck();
 		}	
 	}
@@ -70,9 +66,15 @@ public abstract class StandardMovementValidationStrategy implements Validator {
 		return piece.getType() == ChessPieceType.KING;
 	}
 	
-	private void validateYourKingInNotCheck() throws ChessException {	 
-		KingValidator kingValidator = new KingValidator();
-		kingValidator.validate(to, from, board);
+	private void validateYourKingInNotCheck() throws ChessException {
+		ChessPlayerColor color = board.getPiece(from).getColor();
+		KingValidator kingValidator = new KingValidator(board);
+		kingValidator.setupNextTurnBoard(to, from, board.getPiece(from), board);
+		kingValidator.refreshLocations();
+		
+		if (kingValidator.isKingInCheck(color)) {
+			throw new MovePutsKingInCheckException(KingValidator.MOVE_PUTS_KING_IN_CHECK);
+		}
 	}
 	
 	private void validateKingNotInCheckFromKing(ChessCoordinate to, ChessCoordinate from, StandardBoard board) throws ChessException {
@@ -95,5 +97,13 @@ public abstract class StandardMovementValidationStrategy implements Validator {
 	public static String formatPieceInWayErrorMsg(ChessCoordinate from, ChessCoordinate to, ChessCoordinate pieceInWayLoc) {
 		String formattedError = String.format(PIECE_IN_WAY, from, to, pieceInWayLoc);
 		return formattedError;
+	}
+	
+	public void setTo(ChessCoordinate to) {
+		this.to= to;	
+	}
+	
+	public void setFrom(ChessCoordinate from) {
+		this.from = from;
 	}
 }

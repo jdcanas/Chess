@@ -7,17 +7,21 @@ import common.ChessException;
 import common.ChessGameType;
 import common.ChessPieceType;
 import common.ChessPlayerColor;
+import common.GameState;
+import common.Move;
 import factories.MovementValidationStrategyFactory;
 import standard.StandardBoard;
+import standard.StandardChessGame;
 import standard.StandardCoordinate;
 import standard.StandardPiece;
 import strategies.StandardMovementValidationStrategy;
+import validation.KingValidator;
 import validation.PreTurnValidator;
 import validation.exception.MovePutsKingInCheckException;
 import validation.exception.MovementValidationException;
 
 public class ValidMoveGenerator {
-	private ArrayList<ChessCoordinate> validMoves;
+	private ArrayList<Move> validMoves;
 	
 	public static final boolean VALIDATE_CHECK = false;
 	public static final boolean DONT_VALIDATE_CHECK = true;
@@ -44,11 +48,11 @@ public class ValidMoveGenerator {
 		this.isMovingIntoCheckValid = isMovingIntoCheckValid;
 	}
 
-	public ArrayList<ChessCoordinate> getValidMoves() {
+	public ArrayList<Move> getValidMoves() {
 		return validMoves;
 	}
 	
-	public ArrayList<ChessCoordinate> getValidMoves(ChessGameType gameType, ChessPlayerColor color, ChessPieceType piece, ChessCoordinate from, StandardBoard board, boolean isMovingIntoCheckValid) {
+	public ArrayList<Move> getValidMoves(ChessGameType gameType, ChessPlayerColor color, ChessPieceType piece, ChessCoordinate from, StandardBoard board, boolean isMovingIntoCheckValid) {
 		this.color = color;
 		this.piece = piece;
 		this.from = from;
@@ -60,16 +64,18 @@ public class ValidMoveGenerator {
 		return validMoves;
 	}
 
-	private ArrayList<ChessCoordinate> generateValidMoves(boolean isMovingIntoCheckValid) {
-		ArrayList<ChessCoordinate> movesFound = new ArrayList<ChessCoordinate>();
+	private ArrayList<Move> generateValidMoves(boolean isMovingIntoCheckValid) {
+		ArrayList<Move> movesFound = new ArrayList<Move>();
 		
 		ArrayList<ChessCoordinate> allCoordinates = CoordinateUtilities.getValidCoordinates();
 		
 		for (ChessCoordinate currCoordinate: allCoordinates) {
 
+			//StandardChessGame game = makeSimulatedGame(board, color);
 			try {
-    			moveValidator.validate(from, currCoordinate, board, color, piece, isMovingIntoCheckValid);
-				movesFound.add(currCoordinate);
+    			//game.makeMove(piece, from, currCoordinate);
+				moveValidator.validate(from, currCoordinate, board, color, piece, isMovingIntoCheckValid);
+				movesFound.add(new Move(currCoordinate, from, piece));
 			} catch (ChessException e) {
 				
 			}
@@ -77,6 +83,13 @@ public class ValidMoveGenerator {
 		
 		return movesFound;
 	}
+	
+	public static StandardChessGame makeSimulatedGame(StandardBoard board, ChessPlayerColor currTurn) {
+		GameState state = new GameState(currTurn);
+		StandardChessGame game = new StandardChessGame(new StandardBoard(board.getUnderlyingBoard()), state);
+		return game;
+	}
+
 	
 //	public void validate(ChessCoordinate from, ChessCoordinate to, StandardBoard board) throws ChessException {
 //		StandardMovementValidationStrategy currPieceCheckValidator;
