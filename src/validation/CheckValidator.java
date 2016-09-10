@@ -15,6 +15,7 @@ import factories.MovementValidationStrategyFactory;
 import standard.StandardBoard;
 import standard.StandardPiece;
 import strategies.StandardMovementValidationStrategy;
+import utilities.CoordinateUtilities;
 import utilities.ValidMoveGenerator;
 import validation.exception.BoardOutOfBoundsException;
 import validation.exception.KingNotFoundException;
@@ -64,6 +65,8 @@ public class CheckValidator {
 		ArrayList<ChessCoordinate> pieceLocations = board.getPieceLocations();
 		for (ChessCoordinate currCoordinate: pieceLocations) {
 			newLocationsUnderAttack = getValidMoves(currCoordinate, board, color);
+			
+			
 
 			totalLocationsUnderAttack.addAll(newLocationsUnderAttack);
 		}
@@ -118,6 +121,21 @@ public class CheckValidator {
 		return validMoves;
 	}
 
+	private boolean allSquaresUnderAttack(ArrayList<ChessCoordinate> squaresAdjacentToKing, StandardBoard board2, ChessPlayerColor color2) {
+		boolean cantMove = true;
+		
+		Set<ChessCoordinate> invalidMoves = color == ChessPlayerColor.WHITE ? locationsBlackThreatens : locationsWhiteThreatens;
+		
+		invalidMoves = CoordinateUtilities.addOccupiedLocations(invalidMoves, squaresAdjacentToKing, board2, color2);
+		
+		System.out.println(board.getPrintableBoard());
+		
+		for (ChessCoordinate c: squaresAdjacentToKing) {
+			cantMove &= invalidMoves.contains(c);
+		}
+		return cantMove;
+	}
+
 	public void setupNextTurnBoard(ChessCoordinate to, ChessCoordinate from, StandardPiece piece, StandardBoard board) throws BoardOutOfBoundsException {
 		this.board = makeNextTurnBoard(to, from, piece, board);
 	}
@@ -131,5 +149,17 @@ public class CheckValidator {
 		nextTurnBoard.movePiece(piece, to, from);
 		return nextTurnBoard;
 	}
+	
+	public boolean checkIfKingCanMove(ChessCoordinate pieceLoc) {
+		boolean canMove = true;
+		if (board.getPiece(pieceLoc).getType() == ChessPieceType.KING) {
+			ArrayList<ChessCoordinate> squaresAdjacentToKing = CoordinateUtilities.getAdjacentCoordinates(pieceLoc);
+			
+			canMove = !allSquaresUnderAttack(squaresAdjacentToKing, board, color);
+		}
+		return canMove;
+	}
+	
+	
 
 }

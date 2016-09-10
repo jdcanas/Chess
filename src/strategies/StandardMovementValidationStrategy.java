@@ -13,6 +13,7 @@ import standard.StandardPiece;
 import utilities.ValidMoveGenerator;
 import validation.CheckValidator;
 import validation.Validator;
+import validation.exception.KingCantMoveException;
 import validation.exception.MovePutsKingInCheckException;
 import validation.exception.MovementValidationException;
 
@@ -41,9 +42,10 @@ public abstract class StandardMovementValidationStrategy {
 		
 		baseValidate();
 		
-		if (ChessPieceType.KING == board.getPiece(from).getType()) {
+		if (isMovingIntoCheckValid == ValidMoveGenerator.VALIDATE_CHECK && ChessPieceType.KING == board.getPiece(from).getType()) {
 			validateKingNotInCheckFromKing(to, from, board);
-		} else if (isMovingIntoCheckValid == ValidMoveGenerator.VALIDATE_CHECK) {
+		}
+		if (isMovingIntoCheckValid == ValidMoveGenerator.VALIDATE_CHECK) {
 			validateYourKingInNotCheck();
 		}	
 	}

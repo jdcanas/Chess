@@ -77,7 +77,7 @@ public class StandardTest {
 	@Test
 	public void testPrintableBoard() {
 		String baseBoard = "----A-----B-----C-----D-----E-----F-----G-----H---\n" +
-						   "8| B_R | B_H | B_B | B_Q | B_K | B_B | W_H | B_R |\n" +
+						   "8| B_R | B_H | B_B | B_Q | B_K | B_B | B_H | B_R |\n" +
 					       "7| B_P | B_P | B_P | B_P | B_P | B_P | B_P | B_P |\n" +
 					       "6|     |     |     |     |     |     |     |     |\n" +
 					       "5|     |     |     |     |     |     |     |     |\n" +

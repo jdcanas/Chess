@@ -2,8 +2,11 @@ package utilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import common.ChessCoordinate;
+import common.ChessPlayerColor;
+import standard.StandardBoard;
 import standard.StandardCoordinate;
 
 public class CoordinateUtilities {
@@ -106,5 +109,17 @@ public class CoordinateUtilities {
 	
 	private static int getOppositeSign(int num) {
 		return getSign(num) == 1 ? -1 : 1;
+	}
+
+
+	public static Set<ChessCoordinate> addOccupiedLocations(Set<ChessCoordinate> locationsThreatened,
+			ArrayList<ChessCoordinate> squaresAdjacentToKing, StandardBoard board, ChessPlayerColor kingColor) {
+		for (ChessCoordinate c: squaresAdjacentToKing) {
+			if (board.getPiece(c) != null && board.getPiece(c).getColor() == kingColor) {
+				locationsThreatened.add(c);
+			}
+		}
+		return locationsThreatened;
+		
 	}
 }

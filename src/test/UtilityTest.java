@@ -14,6 +14,7 @@ import common.ChessGameType;
 import common.ChessPieceType;
 import common.ChessPlayerColor;
 import common.GameState;
+import common.MoveArray;
 import standard.StandardBoard;
 import standard.StandardChessGame;
 import standard.StandardCoordinate;
@@ -166,8 +167,11 @@ public class UtilityTest {
 		assertEquals(whitePawn, board.getPiece(from));
 		assertEquals(2, moveGenerator.getValidMoves().size());
 		
-		assertTrue(moveGenerator.getValidMoves().contains(StandardCoordinate.make('a', 2)));
-		assertTrue(moveGenerator.getValidMoves().contains(StandardCoordinate.make('a', 3)));
+		MoveArray moves = new MoveArray(moveGenerator.getValidMoves());
+		ArrayList<ChessCoordinate> moveCoordinates = moves.getToList();
+		
+		assertTrue(moveCoordinates.contains(StandardCoordinate.make('a', 2)));
+		assertTrue(moveCoordinates.contains(StandardCoordinate.make('a', 3)));
 	}
 
 }

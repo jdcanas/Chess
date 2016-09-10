@@ -24,8 +24,8 @@ import static org.junit.Assert.*;
 public class PreTurnTest {
 
 	HashMap<ChessCoordinate, StandardPiece> emptyBoard;
-	StandardPiece whiteBishop;
-	StandardPiece blackBishop;
+	StandardPiece whiteBishop, whiteKing;
+	StandardPiece blackBishop, blackKing;
 	StandardCoordinate to, from;
 	StandardChessGame game;
 	StandardBoard board;
@@ -37,8 +37,10 @@ public class PreTurnTest {
 		state = new GameState(ChessPlayerColor.WHITE);
 		game = new StandardChessGame(board, state);
 		emptyBoard = new HashMap<ChessCoordinate, StandardPiece>();
+		whiteKing = new StandardPiece(ChessPlayerColor.WHITE, ChessPieceType.KING);
 		whiteBishop = new StandardPiece(ChessPlayerColor.WHITE, ChessPieceType.BISHOP);
 		blackBishop = new StandardPiece(ChessPlayerColor.BLACK, ChessPieceType.BISHOP);
+		blackKing = new StandardPiece(ChessPlayerColor.BLACK, ChessPieceType.KING);
 	}
 	
 	@Test(expected = BoardOutOfBoundsException.class)
@@ -82,7 +84,10 @@ public class PreTurnTest {
 	public void testMovePieceNotYours() throws ChessException {
 		to = StandardCoordinate.make('c', 0);
 		from = StandardCoordinate.make('h', 5);
+
 		emptyBoard.put(to, blackBishop);
+		emptyBoard.put(StandardCoordinate.make('a', 7), blackKing);
+		emptyBoard.put(StandardCoordinate.make('d', 7), whiteKing);
 		
 		board = new StandardBoard(emptyBoard);
 		
@@ -98,6 +103,8 @@ public class PreTurnTest {
 	
 	@Test
 	public void testToFromSame() throws ChessException {
+		
+		emptyBoard.put(StandardCoordinate.make('a', 1), whiteBishop);
 		to = StandardCoordinate.make('c', 0);
 		from = StandardCoordinate.make('c', 0);
 		

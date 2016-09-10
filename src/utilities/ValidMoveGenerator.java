@@ -73,7 +73,7 @@ public class ValidMoveGenerator {
 			//StandardChessGame game = makeSimulatedGame(board, color);
 			try {
     			//game.makeMove(piece, from, currCoordinate);
-				moveValidator.validate(from, currCoordinate, board, color, piece, isMovingIntoCheckValid);
+				moveValidator.validate(from, currCoordinate, board, color, board.getPiece(from).getType(), isMovingIntoCheckValid);
 				movesFound.add(new Move(currCoordinate, from, piece));
 			} catch (ChessException e) {
 				

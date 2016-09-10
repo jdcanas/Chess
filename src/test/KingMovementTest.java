@@ -82,6 +82,11 @@ public class KingMovementTest {
 		to = StandardCoordinate.make('d', 6);
 
 		board = new StandardBoard(emptyBoard);
+		
+
+
+		
+		System.out.println(board.getPrintableBoard());
 
 		game = new StandardChessGame(board, state);
 

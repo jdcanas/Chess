@@ -73,7 +73,7 @@ public class StandardBoard {
 		newBoard.put(StandardCoordinate.make(1,0), whiteKnight);
 		newBoard.put(StandardCoordinate.make(6,0), whiteKnight);
 		newBoard.put(StandardCoordinate.make(1,7), blackKnight);
-		newBoard.put(StandardCoordinate.make(6,7), whiteKnight);
+		newBoard.put(StandardCoordinate.make(6,7), blackKnight);
 
 		newBoard.put(StandardCoordinate.make(2,0), whiteBishop);
 		newBoard.put(StandardCoordinate.make(5,0), whiteBishop);
