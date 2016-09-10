@@ -17,6 +17,7 @@ import factories.MovementValidationStrategyFactory;
 import strategies.StandardEndTurnStrategy;
 import utilities.CoordinateUtilities;
 import utilities.ValidMoveGenerator;
+import utilities.ValidMoveGeneratorController;
 import validation.CheckValidator;
 import validation.EndTurnValidator;
 import validation.PreTurnValidator;
@@ -27,7 +28,8 @@ public class StandardChessGame implements ChessGame {
 	StandardBoard board;
 	GameState turnState;
 	
-	ValidMoveGenerator validMoves;
+	ValidMoveGenerator validMoveGenerator;
+	ArrayList<Move> validMoves;
 
 	PreTurnValidator preTurnValidator;
 	EndTurnValidator endTurnValidator;
@@ -39,7 +41,6 @@ public class StandardChessGame implements ChessGame {
 	public StandardChessGame(ChessPlayerColor movesFirst) {
 		board = new StandardBoard();
 		turnState = new GameState(movesFirst);
-		validMoves = new ValidMoveGenerator(ValidMoveGenerator.VALIDATE_CHECK);
 
 		buildGame();
 	}
@@ -66,7 +67,10 @@ public class StandardChessGame implements ChessGame {
 	public MoveResult makeMove(ChessPieceType pieceType, ChessCoordinate from, ChessCoordinate to)
 			throws ChessException {
 		StandardPiece piece = new StandardPiece(turnState.getCurrPlayer(), pieceType);
-	
+		
+
+		validMoves = ValidMoveGeneratorController.getInstance().getMovesForColor(turnState.getCurrPlayer(), board, ValidMoveGenerator.VALIDATE_CHECK);
+		
 		MoveResult result;
 		if (isCheckMateOrDraw()) {
 			return this.newResult;
@@ -91,24 +95,22 @@ public class StandardChessGame implements ChessGame {
 		CheckValidator checkValidator = new CheckValidator(board);
 		boolean canKingMove = checkValidator.checkIfKingCanMove(board.getKingLocation(currColor));
 		
-		
 		MoveResult result;
 		boolean resultChanged = false;
-		
-		ArrayList<Move> moves = getMovesForColor(currColor);
-		
+	
 		MoveResult thisPlayerCheck = MoveResult.getCheckResultForColor(currColor);
 		
+		ArrayList<Move> movesWithBlockagesRemoved = validMoves;
 		if (previousResult == thisPlayerCheck || !canKingMove) {
-			moves = MoveArray.removeKingMoves(currColor, board.getKingLocation(currColor), moves);
+			movesWithBlockagesRemoved = MoveArray.removeKingMoves(currColor, board.getKingLocation(currColor), (ArrayList<Move>) validMoves.clone(), canKingMove);
 		}
 		
 		if (previousResult == thisPlayerCheck) {
-			if (moves.isEmpty()) {
+			if (movesWithBlockagesRemoved.isEmpty()) {
 				this.newResult = MoveResult.getWinResultForColor(ChessPlayerColor.getOppositeColor(currColor)); 
 				resultChanged = true;
 			}
-		} else if (moves.isEmpty() && previousResult == MoveResult.OK) {
+		} else if (movesWithBlockagesRemoved.isEmpty() && previousResult == MoveResult.OK) {
 			this.newResult = MoveResult.DRAW;
 			resultChanged = true;
 		}
@@ -119,10 +121,11 @@ public class StandardChessGame implements ChessGame {
 		ArrayList<ChessCoordinate> pieceLocs = getPiecesForColor(color);
 		ArrayList<Move> moves = new ArrayList<Move>();
 		
-		ValidMoveGenerator validMoves = new ValidMoveGenerator(ValidMoveGenerator.VALIDATE_CHECK);
+		ValidMoveGenerator validMoves = new ValidMoveGenerator(ChessGameType.STANDARD_CHESS, turnState.getCurrPlayer(), null, null, board, ValidMoveGenerator.VALIDATE_CHECK);
 	
 		for (ChessCoordinate c: pieceLocs) {
-			moves.addAll(validMoves.getValidMoves(ChessGameType.STANDARD_CHESS, turnState.getCurrPlayer(), board.getPiece(c).getType(), c, board, ValidMoveGenerator.VALIDATE_CHECK));
+			validMoves.refresh(ChessGameType.STANDARD_CHESS, color, board.getPiece(c).getType(), c, board, ValidMoveGenerator.VALIDATE_CHECK);
+			moves.addAll(validMoves.getValidMoves());
 			
 		}
 		

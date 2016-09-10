@@ -45,7 +45,6 @@ public class EndTurnStrategyTest {
 		blackBishop = new StandardPiece(ChessPlayerColor.BLACK, ChessPieceType.BISHOP);
 		blackKing = new StandardPiece(ChessPlayerColor.BLACK, ChessPieceType.KING);
 		whiteKing = new StandardPiece(ChessPlayerColor.WHITE, ChessPieceType.KING);
-		emptyBoard.put(StandardCoordinate.make('a', 7), blackKing);
 		whiteQueen = new StandardPiece(ChessPlayerColor.WHITE, ChessPieceType.QUEEN);
 
 		game = new StandardChessGame(board, state);
@@ -54,7 +53,7 @@ public class EndTurnStrategyTest {
 
 	@Test
 	public void testCheck() throws ChessException {
-
+		emptyBoard.put(StandardCoordinate.make('a', 7), blackKing);
 		emptyBoard.put(StandardCoordinate.make('b', 7), whiteKing);
 		board = new StandardBoard(emptyBoard);
 
@@ -67,6 +66,7 @@ public class EndTurnStrategyTest {
 	public void testCheckMate() throws ChessException {
 		from = StandardCoordinate.make('c', 5);
 		to = StandardCoordinate.make('a', 5);
+		emptyBoard.put(StandardCoordinate.make('a', 7), blackKing);
 		emptyBoard.put(StandardCoordinate.make('c', 7), whiteKing);
 		emptyBoard.put(to, whiteQueen);
 
@@ -84,14 +84,16 @@ public class EndTurnStrategyTest {
 	public void testDraw() throws ChessException {
 		from = StandardCoordinate.make('c', 5);
 		to = StandardCoordinate.make('a', 5);
-		emptyBoard.put(StandardCoordinate.make('c', 7), whiteKing);
-		emptyBoard.put(StandardCoordinate.make('a', 6), blackPawn);
-
+		emptyBoard.put(StandardCoordinate.make('a', 0), blackKing);
+		emptyBoard.put(StandardCoordinate.make('c', 0), whiteKing);
+		emptyBoard.put(StandardCoordinate.make('a', 1), blackPawn);
 
 		board = new StandardBoard(emptyBoard);
 		state = new GameState(ChessPlayerColor.BLACK);
 		game = new StandardChessGame(board, state);
 		game.setPreviousResult(MoveResult.OK);
+		
+		System.out.println(board.getPrintableBoard());
 
 		MoveResult result = game.makeMove(ChessPieceType.KING, StandardCoordinate.make('a', 7), StandardCoordinate.make('b', 7));
 

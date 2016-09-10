@@ -113,10 +113,9 @@ public class CheckValidator {
 
 		StandardPiece piece = new StandardPiece(board.getPiece(pieceLoc).getColor(), board.getPiece(pieceLoc).getType());
 
-		ValidMoveGenerator moveGenerator = new ValidMoveGenerator(ValidMoveGenerator.DONT_VALIDATE_CHECK);
+		ValidMoveGenerator moveGenerator = new ValidMoveGenerator(ChessGameType.STANDARD_CHESS, piece.getColor(), piece.getType(), pieceLoc, board, ValidMoveGenerator.DONT_VALIDATE_CHECK);
 
-		validMoves = moveGenerator.getValidMoves(ChessGameType.STANDARD_CHESS, piece.getColor(), piece.getType(), pieceLoc, board, ValidMoveGenerator.DONT_VALIDATE_CHECK);
-
+		validMoves = moveGenerator.getValidMoves();
 
 		return validMoves;
 	}
@@ -124,11 +123,9 @@ public class CheckValidator {
 	private boolean allSquaresUnderAttack(ArrayList<ChessCoordinate> squaresAdjacentToKing, StandardBoard board2, ChessPlayerColor color2) {
 		boolean cantMove = true;
 		
-		Set<ChessCoordinate> invalidMoves = color == ChessPlayerColor.WHITE ? locationsBlackThreatens : locationsWhiteThreatens;
+		Set<ChessCoordinate> invalidMoves = color2 == ChessPlayerColor.WHITE ? locationsBlackThreatens : locationsWhiteThreatens;
 		
 		invalidMoves = CoordinateUtilities.addOccupiedLocations(invalidMoves, squaresAdjacentToKing, board2, color2);
-		
-		System.out.println(board.getPrintableBoard());
 		
 		for (ChessCoordinate c: squaresAdjacentToKing) {
 			cantMove &= invalidMoves.contains(c);
@@ -155,7 +152,7 @@ public class CheckValidator {
 		if (board.getPiece(pieceLoc).getType() == ChessPieceType.KING) {
 			ArrayList<ChessCoordinate> squaresAdjacentToKing = CoordinateUtilities.getAdjacentCoordinates(pieceLoc);
 			
-			canMove = !allSquaresUnderAttack(squaresAdjacentToKing, board, color);
+			canMove = !allSquaresUnderAttack(squaresAdjacentToKing, board, board.getPiece(pieceLoc).getColor());
 		}
 		return canMove;
 	}

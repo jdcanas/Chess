@@ -14,6 +14,7 @@ import common.ChessGameType;
 import common.ChessPieceType;
 import common.ChessPlayerColor;
 import common.GameState;
+import common.Move;
 import common.MoveArray;
 import standard.StandardBoard;
 import standard.StandardChessGame;
@@ -139,13 +140,10 @@ public class UtilityTest {
 		ValidMoveGenerator moveGenerator = new ValidMoveGenerator(
 				ChessGameType.STANDARD_CHESS, ChessPlayerColor.WHITE, ChessPieceType.KING, from, board, ValidMoveGenerator.DONT_VALIDATE_CHECK);
 		
-		for (ChessCoordinate c: CheckValidator.movesToCoordinates(moveGenerator.getValidMoves())) {
-			System.out.println(c);
-		}
-		
 		assertEquals(whiteKing, board.getPiece(from));
 		assertEquals(2, board.getPieceLocations().size());
-		assertEquals(3, moveGenerator.getValidMoves().size());
+
+		assertEquals(5, moveGenerator.getValidMoves().size());
 		
 	}
 	
@@ -158,10 +156,6 @@ public class UtilityTest {
 		ValidMoveGenerator moveGenerator = new ValidMoveGenerator(
 				ChessGameType.STANDARD_CHESS, ChessPlayerColor.WHITE, ChessPieceType.PAWN, from, board, ValidMoveGenerator.DONT_VALIDATE_CHECK);
 		
-
-		for (ChessCoordinate c: CheckValidator.movesToCoordinates(moveGenerator.getValidMoves())) {
-			System.out.println(c);
-		}
 		
 		
 		assertEquals(whitePawn, board.getPiece(from));

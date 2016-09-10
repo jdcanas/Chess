@@ -22,13 +22,6 @@ public class StandardTest {
 	@Before
 	public void setUp() throws Exception {
 	}
-
-	@Test
-	public void test() {
-		String currentSquare  = "| %s |";
-		String s = String.format(currentSquare, "B_Q");
-		System.out.println(s);
-	}
 	
 	@Test
 	public void testPieceLocationList() {
@@ -88,6 +81,5 @@ public class StandardTest {
 					       " -------------------------------------------------";
 		StandardChessGame game = new StandardChessGame(ChessPlayerColor.WHITE);
 		assertEquals(baseBoard, game.getPrintableBoard());
-		System.out.println(game.getPrintableBoard());
 	}
 }

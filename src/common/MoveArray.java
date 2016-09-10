@@ -2,6 +2,8 @@ package common;
 
 import java.util.ArrayList;
 
+import standard.StandardCoordinate;
+
 public class MoveArray {
 
 	private ArrayList<Move> moveArray = new ArrayList<Move>();
@@ -20,11 +22,12 @@ public class MoveArray {
 		return toList;
 	}
 	
-	public static ArrayList<Move> removeKingMoves(ChessPlayerColor kingColor, ChessCoordinate kingLoc, ArrayList<Move> moves) {
+	public static ArrayList<Move> removeKingMoves(ChessPlayerColor kingColor, ChessCoordinate kingLoc, ArrayList<Move> moves, boolean canKingMove) {
 		ArrayList<Move> newMoves = new ArrayList<Move>();
 		
 		for (Move m: moves) {
-			if (m.from != kingLoc) {
+			StandardCoordinate c = new StandardCoordinate(m.from);
+			if (!c.equals(kingLoc)) {
 				newMoves.add(m);
 			}
 		}

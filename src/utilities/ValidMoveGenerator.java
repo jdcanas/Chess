@@ -34,33 +34,26 @@ public class ValidMoveGenerator {
 	private boolean isMovingIntoCheckValid;
 	
 	public ValidMoveGenerator(ChessGameType gameType, ChessPlayerColor color, ChessPieceType piece, ChessCoordinate from, StandardBoard board, boolean isMovingIntoCheckValid) {
-		this.color = color;
-		this.piece = piece;
-		this.from = from;
-		this.board = board;
-		moveValidator = new PreTurnValidator();
-		this.isMovingIntoCheckValid = isMovingIntoCheckValid;
-		
-		validMoves = generateValidMoves(isMovingIntoCheckValid);
-	}
-	
-	public ValidMoveGenerator(boolean isMovingIntoCheckValid) {
-		this.isMovingIntoCheckValid = isMovingIntoCheckValid;
+		refresh(gameType, color, piece, from, board, isMovingIntoCheckValid);
 	}
 
 	public ArrayList<Move> getValidMoves() {
 		return validMoves;
 	}
 	
-	public ArrayList<Move> getValidMoves(ChessGameType gameType, ChessPlayerColor color, ChessPieceType piece, ChessCoordinate from, StandardBoard board, boolean isMovingIntoCheckValid) {
+	public void refresh(ChessGameType gameType, ChessPlayerColor color, ChessPieceType piece, ChessCoordinate from, StandardBoard board, boolean isMovingIntoCheckValid) {
 		this.color = color;
 		this.piece = piece;
 		this.from = from;
 		this.board = board;
 		moveValidator = new PreTurnValidator();
 		this.isMovingIntoCheckValid = isMovingIntoCheckValid;
+		 
+		if (board == null) {
+			return;
+		}
 		
-		return generateValidMoves(isMovingIntoCheckValid);
+		validMoves = generateValidMoves(isMovingIntoCheckValid);
 	}
 
 	private ArrayList<Move> generateValidMoves(boolean isMovingIntoCheckValid) {

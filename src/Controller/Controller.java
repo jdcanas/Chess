@@ -1,29 +1,17 @@
 package Controller;
 
-import java.util.ArrayList;
-
 import common.ChessCoordinate;
 import common.ChessException;
-import common.ChessGameType;
 import common.ChessPieceType;
 import common.ChessPlayerColor;
-import common.Move;
 import common.MoveResult;
-import standard.StandardBoard;
 import standard.StandardChessGame;
-import standard.StandardPiece;
-import utilities.ValidMoveGenerator;
 
 public class Controller {
 	private static Controller instance = null;
 	public static ChessPlayerColor startingColor = ChessPlayerColor.WHITE;
 	
 	private StandardChessGame game;
-	private ChessPieceType piece;
-	private ChessCoordinate from;
-	private ChessCoordinate to;
-	private StandardBoard board;
-	private MoveResult result = MoveResult.OK;
 	
 	/**
 	 * Default constructor for the ViewEventController. Is protected to prevent instantiation.
@@ -49,10 +37,6 @@ public class Controller {
 	}
 	
 	public MoveResult makeMove(ChessPieceType piece, ChessCoordinate from, ChessCoordinate to) throws ChessException {
-		this.piece = piece;
-		this.from = from;
-		this.to = to;
-		
 		return game.makeMove(piece, from, to);
 	}
 }
