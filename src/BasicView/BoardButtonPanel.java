@@ -50,7 +50,7 @@ public class BoardButtonPanel extends JPanel {
 	private void addButtonRows() {
 		for (int i = 0; i < buttonRows.size(); i++) {
 			this.add(buttonRows.get(i));
-		}
+		} 
 	}
 	
 	public void configureLayout(PieceButton button1, PieceButton button2, boolean isFirstOrLastButton) {
