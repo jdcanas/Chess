@@ -167,5 +167,12 @@ public class UtilityTest {
 		assertTrue(moveCoordinates.contains(StandardCoordinate.make('a', 2)));
 		assertTrue(moveCoordinates.contains(StandardCoordinate.make('a', 3)));
 	}
+	
+	@Test
+	public void testPieceList() {
+		ArrayList<String> pieces = ChessPieceType.pieceNames();
+		
+		assertEquals(6, pieces.size());
+	}
 
 }

@@ -13,4 +13,10 @@ public class ViewConstants {
 	
 	public static final int COORDINATE_TEXT_FIELD_X = BASE_TEXT_FIELD_X;
 	public static final int COORDINATE_TEXT_FIELD_Y = BASE_TEXT_FIELD_Y;
+	
+	public static final int PIECE_BUTTON_X = 50;
+	public static final int PIECE_BUTTON_Y = 50;
+	
+	public static final int PIECE_BUTTON_PANEL_X = 700;
+	public static final int PIECE_BUTTON_PANEL_Y = 700;
 }

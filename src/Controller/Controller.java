@@ -5,6 +5,7 @@ import common.ChessException;
 import common.ChessPieceType;
 import common.ChessPlayerColor;
 import common.MoveResult;
+import standard.StandardBoard;
 import standard.StandardChessGame;
 
 public class Controller {
@@ -38,5 +39,18 @@ public class Controller {
 	
 	public MoveResult makeMove(ChessPieceType piece, ChessCoordinate from, ChessCoordinate to) throws ChessException {
 		return game.makeMove(piece, from, to);
+	}
+	
+	public String getPrintableBoard() {
+		return game.getPrintableBoard();
+	}
+
+
+	public StandardBoard getBoard() {
+		return game.getBoard();
+	}
+	
+	public StandardChessGame getGame() {
+		return game;
 	}
 }

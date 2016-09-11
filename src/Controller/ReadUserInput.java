@@ -9,12 +9,9 @@ public class ReadUserInput {
 			String line;
 			
 			System.out.println(prompt);
-			line = reader.nextLine();
-			
-			reader.close();       
+			line = reader.nextLine();  
 			
 			return line;
-			
 		}
 		
 }

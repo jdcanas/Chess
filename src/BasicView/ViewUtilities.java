@@ -6,7 +6,11 @@ import java.awt.Dimension;
 public class ViewUtilities {
 	
 	public static void setSize(int x, int y, Component comp) {
-		comp.setPreferredSize(new Dimension(x, y));
+		Dimension d = new Dimension(x, y);
+		comp.setPreferredSize(d);
+		comp.setMaximumSize(d);
 	}
+	
+	
 	
 }

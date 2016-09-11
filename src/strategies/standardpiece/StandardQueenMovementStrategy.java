@@ -42,7 +42,7 @@ public class StandardQueenMovementStrategy extends StandardMovementValidationStr
 		try {
 			movementStrategy.validateDirection();
 		} catch (MovementValidationException e) {
-			throw new MovementValidationException(e.getMessage().replace("Rook", "Queen").replace("Bishop", "Queen"));			
+			throw new MovementValidationException(e.getMessage().replace("rook", "queen").replace("bishop", "queen"));			
 		}
 	}
 

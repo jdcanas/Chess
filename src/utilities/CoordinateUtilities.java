@@ -1,6 +1,7 @@
 package utilities;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -121,5 +122,25 @@ public class CoordinateUtilities {
 		}
 		return locationsThreatened;
 		
+	}
+	
+
+	public static ArrayList<ChessCoordinate> getSortedCoordinate() {
+		ArrayList<ChessCoordinate> coordinates = CoordinateUtilities.getValidCoordinates();
+		coordinates.sort(new Comparator<ChessCoordinate>() {
+			@Override
+			public int compare(ChessCoordinate o1, ChessCoordinate o2) {
+				// TODO Auto-generated method stub
+				StandardCoordinate c1 = new StandardCoordinate(o1);
+				StandardCoordinate c2 = new StandardCoordinate(o2);
+				if (c1.getX() != c2.getX()) {
+					return c1.getX() - c2.getX();
+				} else {
+					return c1.getY() - c2.getY();
+				}
+			}
+		
+		});
+		return coordinates;
 	}
 }

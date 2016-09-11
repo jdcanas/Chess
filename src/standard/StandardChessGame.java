@@ -23,6 +23,7 @@ import validation.EndTurnValidator;
 import validation.PreTurnValidator;
 import validation.exception.EndTurnValidationException;
 import validation.exception.KingNotFoundException;
+import validation.exception.MoveMadeAfterGameClosedException;
 
 public class StandardChessGame implements ChessGame {
 	StandardBoard board;
@@ -37,6 +38,7 @@ public class StandardChessGame implements ChessGame {
 	StandardEndTurnStrategy gameStatusResolver;
 	MoveResult previousResult = MoveResult.OK;
 	MoveResult newResult;
+	private boolean gameClosed = false;
 
 	public StandardChessGame(ChessPlayerColor movesFirst) {
 		board = new StandardBoard();
@@ -67,12 +69,15 @@ public class StandardChessGame implements ChessGame {
 	public MoveResult makeMove(ChessPieceType pieceType, ChessCoordinate from, ChessCoordinate to)
 			throws ChessException {
 		StandardPiece piece = new StandardPiece(turnState.getCurrPlayer(), pieceType);
-		
+		if (gameClosed) {
+			throw new MoveMadeAfterGameClosedException("The game has ended.");
+		}
 
 		validMoves = ValidMoveGeneratorController.getInstance().getMovesForColor(turnState.getCurrPlayer(), board, ValidMoveGenerator.VALIDATE_CHECK);
 		
 		MoveResult result;
 		if (isCheckMateOrDraw()) {
+			this.gameClosed  = true;
 			return this.newResult;
 		}
 
@@ -87,6 +92,14 @@ public class StandardChessGame implements ChessGame {
 		turnState.updateStateFromSingleMove();
 
 		return result;
+	}
+	
+	public boolean isGameClosed() {
+		return gameClosed;
+	}
+	
+	public ChessPlayerColor getTurn() {
+		return turnState.getCurrPlayer();
 	}
 	
 	private boolean isCheckMateOrDraw() throws ChessException {
@@ -157,5 +170,9 @@ public class StandardChessGame implements ChessGame {
 	
 	public void setPreviousResult(MoveResult result) {
 		this.previousResult = result;
+	}
+
+	public StandardBoard getBoard() {
+		return board;
 	}
 }
