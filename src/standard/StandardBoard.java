@@ -16,14 +16,25 @@ public class StandardBoard {
 
 	public static final int BOARD_SIZE_X = 8;
 	public static final int BOARD_SIZE_Y = 8;
-
+	public static StandardCoordinate initialWhiteRookLocation1 = StandardCoordinate.make(0,0);
+	public static StandardCoordinate initialWhiteRookLocation2 = StandardCoordinate.make(7,0); 
+	public static StandardCoordinate initialBlackRookLocation1 = StandardCoordinate.make(0,7);
+	public static StandardCoordinate initialBlackRookLocation2 = StandardCoordinate.make(7,7); 
+	public static StandardCoordinate initialWhiteKingLocation = StandardCoordinate.make(4,0); 
+	public static StandardCoordinate initialBlackKingLocation = StandardCoordinate.make(4,7); 
+                                            
+	public static boolean hasWhiteRookMoved1 = false;
+	public static boolean hasWhiteRookMoved2 = false; 
+	public static boolean hasBlackRookMoved1 = false;
+	public static boolean hasBlackRookMoved2 = false; 
+	public static boolean hasWhiteKingMoved = false;
+	public static boolean hasBlackKingMoved = false;
 	private HashMap<ChessCoordinate, StandardPiece> board;
 
 	public StandardBoard() {
 		board = initStandardBoard();
 		pieceLocList = buildPieceLocList(board);
 	}
-
 	public StandardBoard(HashMap<ChessCoordinate, StandardPiece> startingBoard) {
 		this.board = startingBoard; 
 		pieceLocList = buildPieceLocList(board);
@@ -34,6 +45,10 @@ public class StandardBoard {
 			throw new BoardOutOfBoundsException("The coordinate " + to.toString() + " is out of bounds");
 		}
 
+		
+		if (piece.getType().equals(ChessPieceType.ROOK) || piece.getType().equals(ChessPieceType.KING)) {
+			updateHasPieceMoved(piece.getColor(), piece.getType(), from);
+		}
 		board.remove(from, piece);
 		pieceLocList.remove(from);
 		pieceLocList.remove(to);
@@ -42,6 +57,34 @@ public class StandardBoard {
 		pieceLocList.add(to);
 	}
 
+	private void updateHasPieceMoved(ChessPlayerColor color, ChessPieceType type, ChessCoordinate from) {
+		if (color == ChessPlayerColor.BLACK) {
+			if (type == ChessPieceType.KING) {
+				if (from.equals(initialBlackKingLocation)) {
+					hasBlackKingMoved = true;
+				}
+			} else if (type == ChessPieceType.ROOK) {
+				if (from.equals(initialBlackRookLocation1)) {
+					hasBlackRookMoved1 = true;
+				} else if (from.equals(initialBlackRookLocation2)) {
+					hasBlackRookMoved2 = true;
+				}
+			}
+		} else {
+			if (type == ChessPieceType.KING) {
+				if (from.equals(initialWhiteKingLocation)) {
+					hasWhiteKingMoved = true;
+				}
+			} else if (type == ChessPieceType.ROOK) {
+				if (from.equals(initialWhiteRookLocation1)) {
+					hasWhiteRookMoved1 = true;
+				} else if (from.equals(initialWhiteRookLocation2)) {
+					hasWhiteRookMoved2 = true;
+				}
+			}
+		}
+	}
+	
 	public StandardPiece getPiece(ChessCoordinate from) {
 		return board.get(from);
 	}
@@ -125,6 +168,21 @@ public class StandardBoard {
 		
 		return kingLoc;
 	}
+	
+
+	
+	public ArrayList<StandardCoordinate> getSpecificPieceLocationsForColor(ChessPlayerColor color, ChessPieceType type) {
+		ArrayList<StandardCoordinate> locations = new ArrayList<StandardCoordinate>();
+		for (ChessCoordinate c: pieceLocList) {
+			StandardPiece piece = board.get(c);
+			if (piece.getType().equals(type) && piece.getColor().equals(color)) {
+				locations.add(new StandardCoordinate(c));
+			}
+		
+		}
+		return locations;
+	}
+
 
 	public String getPrintableBoard() {
 		String printableBoard = "----A-----B-----C-----D-----E-----F-----G-----H---";

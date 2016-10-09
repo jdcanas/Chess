@@ -29,7 +29,6 @@ public class StandardChessGame implements ChessGame {
 	StandardBoard board;
 	GameState turnState;
 	
-	ValidMoveGenerator validMoveGenerator;
 	ArrayList<Move> validMoves;
 
 	PreTurnValidator preTurnValidator;
@@ -72,22 +71,20 @@ public class StandardChessGame implements ChessGame {
 		if (gameClosed) {
 			throw new MoveMadeAfterGameClosedException("The game has ended.");
 		}
-
-		validMoves = ValidMoveGeneratorController.getInstance().getMovesForColor(turnState.getCurrPlayer(), board, ValidMoveGenerator.VALIDATE_CHECK);
 		
 		MoveResult result;
-		if (isCheckMateOrDraw()) {
-			this.gameClosed  = true;
-			return this.newResult;
-		}
+//		if (isCheckMateOrDraw()) {
+//			this.gameClosed  = true;
+//			return this.newResult;
+//		}
 
 		preTurnValidator.validate(from, to, board, turnState.getCurrPlayer(), pieceType, ValidMoveGenerator.VALIDATE_CHECK);
 
 		board.movePiece(piece, to, from);
-
-		endTurnValidator.validate(from, to, board);
 		
-		result = gameStatusResolver.getResult(turnState.getCurrPlayer());
+		result = gameStatusResolver.getResult(turnState.getCurrPlayer(), previousResult);
+		previousResult = result;
+		//iF A CHECKMATE OR DRAW RETURNS, SET THE GAMESTATE TO CLOSED AND END THE GAME
 
 		turnState.updateStateFromSingleMove();
 
@@ -102,32 +99,50 @@ public class StandardChessGame implements ChessGame {
 		return turnState.getCurrPlayer();
 	}
 	
-	private boolean isCheckMateOrDraw() throws ChessException {
-		ChessPlayerColor currColor = turnState.getCurrPlayer();
-		
-		CheckValidator checkValidator = new CheckValidator(board);
-		boolean canKingMove = checkValidator.checkIfKingCanMove(board.getKingLocation(currColor));
-		
-		MoveResult result;
-		boolean resultChanged = false;
+//	private boolean isCheckMateOrDraw() throws ChessException {
+//		ChessPlayerColor currColor = turnState.getCurrPlayer();
+//		
+//		CheckValidator checkValidator = new CheckValidator(board);
+//		boolean canKingMove = checkValidator.checkIfKingCanMove(board.getKingLocation(currColor));
+//		
+//		boolean resultChanged = false;
+//	
+//		MoveResult thisPlayerCheck = MoveResult.getCheckResultForColor(currColor);
+//
+//		ValidMoveGeneratorController.getInstance().removeKingMoves(currColor, board.getKingLocation(currColor), (ArrayList<Move>) validMoves.clone(), previousResult, canKingMove);
+//		validMoves = ValidMoveGeneratorController.getInstance().getMovesForColor(turnState.getCurrPlayer(), board, ValidMoveGenerator.VALIDATE_CHECK);
+////		
+////		ArrayList<Move> movesWithBlockagesRemoved = validMoves;
+////		if (previousResult == thisPlayerCheck || !canKingMove) {
+////			movesWithBlockagesRemoved = MoveArray.removeKingMoves(currColor, board.getKingLocation(currColor), (ArrayList<Move>) validMoves.clone(), canKingMove);
+////		}
+//		
+//		if (validMoves.isEmpty() && previousResult == MoveResult.OK ) {
+//			this.newResult = MoveResult.DRAW;
+//			resultChanged = true;
+//		} else if (validMoves.isEmpty()) { 
+//			this.newResult = MoveResult.getWinResultForColor(ChessPlayerColor.getOppositeColor(currColor)); 
+//			resultChanged = true;
+//		}
+////		
+////		if (previousResult == thisPlayerCheck) {
+////			if (validMoves.isEmpty()) {
+////				this.newResult = MoveResult.getWinResultForColor(ChessPlayerColor.getOppositeColor(currColor)); 
+////				resultChanged = true;
+////			}
+////		} else if (validMoves.isEmpty() && previousResult == MoveResult.OK ) {
+////			this.newResult = MoveResult.DRAW;
+////			resultChanged = true;
+////		}
+//		return resultChanged;
+//	}
 	
-		MoveResult thisPlayerCheck = MoveResult.getCheckResultForColor(currColor);
-		
-		ArrayList<Move> movesWithBlockagesRemoved = validMoves;
-		if (previousResult == thisPlayerCheck || !canKingMove) {
-			movesWithBlockagesRemoved = MoveArray.removeKingMoves(currColor, board.getKingLocation(currColor), (ArrayList<Move>) validMoves.clone(), canKingMove);
-		}
-		
-		if (previousResult == thisPlayerCheck) {
-			if (movesWithBlockagesRemoved.isEmpty()) {
-				this.newResult = MoveResult.getWinResultForColor(ChessPlayerColor.getOppositeColor(currColor)); 
-				resultChanged = true;
-			}
-		} else if (movesWithBlockagesRemoved.isEmpty() && previousResult == MoveResult.OK) {
-			this.newResult = MoveResult.DRAW;
-			resultChanged = true;
-		}
-		return resultChanged;
+	public static boolean canKingMove(ChessPlayerColor currColor, StandardBoard board) throws ChessException {
+		return canKingMove(currColor, board, new CheckValidator(board));
+	}
+	
+	public static boolean canKingMove(ChessPlayerColor currColor, StandardBoard board, CheckValidator checkValidator) throws KingNotFoundException {
+		return checkValidator.checkIfKingCanMove(board.getKingLocation(currColor));
 	}
 
 	public ArrayList<Move> getMovesForColor(ChessPlayerColor color) {

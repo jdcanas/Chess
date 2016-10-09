@@ -31,7 +31,7 @@ public class RandomMoveAI extends AbstractAI {
 			throw new MoveMadeAfterGameClosedException("This game is closed");
 		}
 		if (game.getTurn() != color) {
-			throw new MoveMadeForWrongColor("This AI is playing as " + color);
+			return;
 		}
 	}
 	

@@ -35,6 +35,7 @@ public class PieceButton extends JToggleButton {
 		this.piece = piece;
 		this.hasPiece = piece != null;
 		this.text = hasPiece ? piece.toString() : "";
+		System.out.println(this.text);
 	}
 	
 	public void setSize() {

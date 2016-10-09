@@ -64,38 +64,38 @@ public class EndTurnStrategyTest {
 
 	@Test
 	public void testCheckMate() throws ChessException {
-		from = StandardCoordinate.make('c', 5);
+		from = StandardCoordinate.make('b', 5);
 		to = StandardCoordinate.make('a', 5);
 		emptyBoard.put(StandardCoordinate.make('a', 7), blackKing);
 		emptyBoard.put(StandardCoordinate.make('c', 7), whiteKing);
-		emptyBoard.put(to, whiteQueen);
+		emptyBoard.put(from, whiteQueen);
 
 		board = new StandardBoard(emptyBoard);
-		state = new GameState(ChessPlayerColor.BLACK);
+		state = new GameState(ChessPlayerColor.WHITE);
 		game = new StandardChessGame(board, state);
-		game.setPreviousResult(MoveResult.BLACK_IN_CHECK);
+		game.setPreviousResult(MoveResult.OK);
 
-		MoveResult result = game.makeMove(ChessPieceType.KING, StandardCoordinate.make('a', 7), StandardCoordinate.make('b', 7));
+		MoveResult result = game.makeMove(ChessPieceType.QUEEN, from, to);
 
 		assertEquals(MoveResult.WHITE_WINS, result);
 	}
 
 	@Test
 	public void testDraw() throws ChessException {
-		from = StandardCoordinate.make('c', 5);
-		to = StandardCoordinate.make('a', 5);
+		from = StandardCoordinate.make('d', 0);
+		to = StandardCoordinate.make('c', 0);
 		emptyBoard.put(StandardCoordinate.make('a', 0), blackKing);
-		emptyBoard.put(StandardCoordinate.make('c', 0), whiteKing);
+		emptyBoard.put(from, whiteKing);
 		emptyBoard.put(StandardCoordinate.make('a', 1), blackPawn);
 
 		board = new StandardBoard(emptyBoard);
-		state = new GameState(ChessPlayerColor.BLACK);
+		state = new GameState(ChessPlayerColor.WHITE);
 		game = new StandardChessGame(board, state);
 		game.setPreviousResult(MoveResult.OK);
 		
 		System.out.println(board.getPrintableBoard());
 
-		MoveResult result = game.makeMove(ChessPieceType.KING, StandardCoordinate.make('a', 7), StandardCoordinate.make('b', 7));
+		MoveResult result = game.makeMove(ChessPieceType.KING, from, to);
 
 		assertEquals(MoveResult.DRAW, result);
 	}

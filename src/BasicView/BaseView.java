@@ -45,6 +45,7 @@ public class BaseView {
 
 		//5. Show it.
 		frame.setVisible(ViewConstants.IS_VIEW_VISIBLE);
+		frame.getContentPane().repaint();
 	}
 	public void setLayout() {
 	}
